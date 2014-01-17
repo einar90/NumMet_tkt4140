@@ -1,0 +1,38 @@
+\usepackage[T1]{fontenc}
+\usepackage{droid}
+\usepackage[defaultsans]{opensans}
+\usepackage{bera}
+\usepackage{listings}
+
+\usepackage{sectsty}
+\allsectionsfont{\normalfont\sffamily}
+
+\usepackage[usenames,dvipsnames]{color}   % Used for colors by various other packages
+\definecolor{light-gray}{RGB}{240,240,240}  % Background color for listings
+\definecolor{gray}{RGB}{100,100,100}  % Color for line-numbers
+\lstset{
+  language={C},     % the language of the code
+  aboveskip=0em,
+  belowskip=-3em,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{light-gray},
+  frame=single,       % adds a frame around the code
+  rulecolor=\color{black},  % frame color
+  captionpos=t,       % sets the caption-position to bottom
+  breaklines=true,      % sets automatic line breaking
+  breakatwhitespace=false,  % automatic breaks only at whitespace?
+  keepspaces=true,      % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  tabsize=4,          % sets default tabsize to 2 spaces
+  commentstyle=\color{green}, % comment style
+  keywordstyle=\color{blue},  % keyword style
+  stringstyle=\color{red},  % string literal style
+  numbers=left,       % line-number position: none, left or right
+  numbersep=5pt,        % how far the line-numbers are from the code
+  numberstyle=\tiny\color{gray}, % the style that used for line-numbers
+  stepnumber=2,       % step between two line-numbers.
+  showspaces=false,     % show spaces everywhere with underscores
+  showtabs=false,       % show tabs within strings with underscores
+  showstringspaces=false,   % underline spaces within strings only
+  escapeinside={\%*}{*)},   % if you want to add LaTeX within your code
+  title=\lstname        % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
