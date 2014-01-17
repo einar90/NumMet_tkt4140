@@ -30,3 +30,6 @@
 *.vrb
 *.xdy
 *.tdo
+
+# Sublime project files
+*.sublime-project
