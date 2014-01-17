@@ -33,3 +33,7 @@
 
 # Sublime project files
 *.sublime-project
+
+# LaTeX
+*.fls
+*.pdf
