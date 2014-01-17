@@ -33,6 +33,7 @@
 
 # Sublime project files
 *.sublime-project
+*.sublime-workspace
 
 # LaTeX
 *.fls
