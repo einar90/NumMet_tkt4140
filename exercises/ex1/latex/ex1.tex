@@ -1,0 +1,204 @@
+\input{../../common/preamble.tex}
+\input{../../common/preamble-addon-listings.tex}
+
+
+\title{TKT4140 Numeriske metoder: Øving 1}
+\author{Einar Baumann}
+
+\begin{document}
+\maketitle
+\pagebreak
+
+Bevegelsesligningen for vannoverflata:
+\begin{equation}
+  \frac{dv}{dt} = - \left[ \frac{2g}{L}z + \frac{f}{2D}v \cdot |v| \right]
+  \label{eq:main}
+\end{equation}
+
+\begin{align*}
+  z_0 & = -6\, \mathrm{m} \\
+  v_0 & = 0\, \mathrm{m/s}
+\end{align*}
+
+\begin{equation*}
+  D=0.5 \mathrm{m},\; f=0.05, \; L=392 \mathrm{m}, \; g=9.8 \mathrm{m/s^2}
+\end{equation*}
+
+
+\section{Eulers metode} % (fold)
+\label{sec:eulers_metode}
+Skjemaet for Eulers metode er som følger:
+\begin{equation}
+  y_{n+1} = y_n + h\cdot f(x_n,y_n)
+\end{equation}
+der
+\begin{equation}
+  f(x_n,y_n) = \frac{dy}{dx}\bigg|_{x_n,y_n}
+\end{equation}
+
+\noindent Når vi her anvender Eulers metode har vi at
+\begin{equation}
+  z_{n+1} = z_n + \Delta t \cdot \frac{dz}{dt}\bigg|_{t_n,z_n} = 
+    z_n + \Delta t \cdot v_n
+\end{equation}
+og
+\begin{equation}
+  v_{n+1} = v_n + \Delta t \cdot \frac{dv}{dt}\bigg|_{t_n,z_n} = 
+    v_n - \Delta t \cdot \left[ \frac{2g}{L}z_n + \frac{f}{2D}v_n \cdot |v_n| \right]
+\end{equation}
+der $\Delta t = 1$.
+
+Beregningene er utført med Python-programmet vist i Listing~\ref{lst:euler}; resultatet er vist i Tabell~\ref{tab:euler}.
+
+\begin{table}[H]
+  \centering
+  \caption{Resultat av beregninger med Eulers metode.}
+  \label{tab:euler}
+  \begin{tabularx}{0.6\textwidth}{XXX}
+    \toprule
+    $n$ & $z_n$  & $v_n$ \\
+    \midrule
+    0 &-6.000000 & 0.000000 \\
+    1 &-6.000000 & 0.300000 \\
+    2 &-5.700000 & 0.595500 \\
+    3 &-5.104500 & 0.862769 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+% section eulers_metode (end)
+
+
+\section{Heuns metode} % (fold)
+\label{sec:heuns_metode}
+Skjemaet for Heuns metode er som følger:
+\begin{align}
+  y_{n+1}^p = & y_n + h \cdot f(x_n,y_n) \\
+  y_{n+1}   = & y_n + \frac{h}{2} \left[f(x_n,y_n)+f(x_{n+1},y_{n+1}^p)\right]
+\end{align}
+
+Når vi her anvender Heuns metode har vi at
+\begin{align}
+  z_{n+1}^p = & z_n + \Delta t \cdot v_n \\
+  z_{n+1}   = & z_n + \frac{\Delta t}{2} \left[ v_n + v_{n+1}^p \right]
+\end{align}
+og
+\begin{align}
+  v_{n+1}^p = & v_n - \Delta t \cdot \left[ \frac{2g}{L}z_n + \frac{f}{2D}v_n            \cdot |v_n| \right] \\
+  v_{n+1} = & v_n + \frac{\Delta t}{2} \cdot
+    \left[  
+      - \left( \frac{2g}{L}z_n + \frac{f}{2D}v_n \cdot |v_n| \right)
+      - \left( \frac{2g}{L}z_{n+1}^p + \frac{f}{2D}v_{n+1}^p \cdot |v_{n+1}^p| \right)
+    \right]
+\end{align}
+
+Beregningene er utført med Python-programmet vist i Listing~\ref{lst:heun}; resultatet er vist i Tabell~\ref{tab:heun}
+
+
+\begin{table}[H]
+  \centering
+  \caption{Resultat av beregninger med Heuns metode.}
+  \label{tab:heun}
+  \begin{tabularx}{0.6\textwidth}{XXX}
+    \toprule
+    $n$  & $z_n$  & $v_n$ \\
+    \midrule
+    0 & -6.000000 & 0.000000 \\
+    1 & -5.850000 & 0.297750 \\
+    2 & -5.408216 & 0.572010 \\
+    3 & -4.709181 & 0.802882 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+% section heuns_metode (end)
+
+
+\section{Kontrollregning} % (fold)
+\label{sec:kontrollregning}
+Rekkeutvikling av ligning \eqref{eq:main} rundt $t=0$:
+\begin{equation}
+  z(t)  = z(t_0) + (t-t_0) \cdot z'(t_0)
+        + \frac{(t-t_0)^2}{2!} \cdot z''(t_0)
+        + \frac{(t-t_0)^3}{3!} \cdot z'''(t_0)
+        + \frac{(t-t_0)^4}{4!} \cdot z^{(4)}(t_0)
+\end{equation}
+Setter inn $t_0 = 0$ i brøkene:
+\begin{align}
+  z(t) &= \underbrace{z(t_0)}_{z_0=-6} 
+        + t \cdot \underbrace{z'(t_0)}_{=v_0=0}
+        + \frac{t^2}{2!} \cdot z''(t_0)
+        + \frac{t^3}{3!} \cdot z'''(t_0)
+        + \frac{t^4}{4!} \cdot z^{(4)}(t_0) \nonumber\\
+       &= -6 + \frac{t^2}{2} \cdot z''(t_0)
+        + \frac{t^3}{6} \cdot z'''(t_0)
+        + \frac{t^4}{24} \cdot z^{(4)}(t_0) \label{eq:utv}
+\end{align}
+
+\noindent Omskriver derivatene:
+\begin{align}
+  z''(t)   & = \frac{dv}{dt}=-\left[\frac{2g}{L}z+\frac{f}{2D}v\cdot |v|\right]\\
+  z''(t_0) & = -\left[\frac{2g}{L}z_0 + \frac{f}{2D}v_0 \cdot |v_0|\right]
+             = 0.3 \label{eq:z2t0}
+\end{align}
+
+\begin{align}
+  z'''(t) & =  \frac{d}{dt} \left( \frac{dv}{dt} \right)
+          = -\left[\frac{2g}{L}v+\frac{f}{D}\cdot\sqrt{v^2}\right] \\
+  z'''(t_0) & =  0 \label{eq:z3t0}
+\end{align}
+
+\begin{align}
+  z^{(4)}(t) = \frac{d^2}{dt^2} \left( \frac{dv}{dt} \right)
+   &= \frac{d^2}{dt^2} \left[-\frac{2g}{L}z(t)-\frac{f}{2D} z'(t)|z'(t)|\right]
+    \nonumber \\ 
+   &= - \frac{2g}{L} z''(t) - \frac{f}{2D} z'''(t) |z'''(t)|
+\end{align}
+
+\begin{align}
+  z^{(4)}(t_0) &= - \frac{2g}{L} z''(t_0) - \frac{f}{2D} z'''(t_0) |z'''(t_0)|
+  \nonumber \\
+  &= -0.05 \cdot 0.3 - 0.05 \cdot 0.0 \cdot 0.0 = -0.015 \label{eq:z4t0}
+\end{align}
+
+Setter ligning \eqref{eq:z2t0}, \eqref{eq:z3t0} og \eqref{eq:z4t0} inn i ligning \eqref{eq:utv}:
+\begin{align}
+  z(t) &= -6 + \frac{t^2}{2} \cdot 0.3
+        + \frac{t^3}{6} \cdot 0.0
+        - \frac{t^4}{24} 0.015 \\
+       &= -6 + \frac{3}{20} t^2
+        - \frac{1}{1600} t^4
+\end{align}
+
+% section kontrollregning (end)
+
+
+
+
+\clearpage
+\section{Kildekode} % (fold)
+\label{sec:kildekode}
+
+\lstinputlisting[%
+  caption={euler.py},
+  label={lst:euler},
+  language={Python}]
+  {../code/euler.py}
+
+\lstinputlisting[%
+  caption={heun.py},
+  label={lst:heun},
+  language={Python}]
+  {../code/heun.py}
+
+% section kildekode (end)
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,34 @@
+%******************************************************************************
+% Includes the listings package and sets some settings for it.
+% REQUIRES the `color' package.
+%******************************************************************************
+
+\usepackage{listings} % -----------------------| Used for source code listings.
+\definecolor{lst-gray}{RGB}{100,100,100}  % ---|Color for line-numbers.
+\definecolor{lst-light-gray}{RGB}{250,250,250} % Background color for listings.
+\lstset{
+  aboveskip=0em, % -------------------| Skip above listing box.
+  backgroundcolor=\color{lst-light-gray}, % Background color.
+  basicstyle=\ttfamily\scriptsize, % -| Default font style.
+  belowskip=\topskip, % --------------| Skip below listing box.
+  breakatwhitespace=false, % ---------| Automatic breaks only at whitespace?.
+  breaklines=true, % -----------------| Sets automatic line breaking.
+  captionpos=t, % --------------------| Sets the caption-position to bottom.
+  commentstyle=\color{green}, % ------| Comment style.
+  escapeinside={\%*}{*)}, % ----------| For adding LaTeX within code.
+  frame=single, % --------------------| Adds a frame around the code.
+  keepspaces=true, % -----------------| Keeps spaces in text.
+  keywordstyle=\color{blue}, %--------| Keyword style.
+  language={C}, % --------------------| The language of the code.
+  numbers=left, % --------------------| Line-number position: none/left/right.
+  numbersep=5pt, % -------------------| Distance between line-numbers and code.
+  numberstyle=\tiny\color{lst-gray}, %| The style that used for line-numbers.
+  rulecolor=\color{black}, % ---------| Frame color.
+  showspaces=false, % ----------------| Show spaces with underscores.
+  showstringspaces=false, % ----------| Underline spaces within strings.
+  showtabs=false, % ------------------| Show tabs with underscores.
+  stepnumber=2, %---------------------| Step between two line-numbers..
+  stringstyle=\color{red}, % ---------| String literal style.
+  tabsize=4, % -----------------------| Sets default tabsize to 2 spaces.
+  title=\lstname % -------------------| Show the filename of included file.
+}

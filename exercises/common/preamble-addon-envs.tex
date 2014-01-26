@@ -1,0 +1,65 @@
+%******************************************************************************
+% Custom environment definitions. 
+% REQUIRES the `color' package.
+%******************************************************************************
+
+\usepackage[amsmath,thmmarks,framed]{ntheorem} % Used to define environments
+\usepackage{framed} % -------------------------| Used for framed environments
+\usepackage{pstricks} % -----------------------| Used for shaded environments
+\definecolor{env-gray}{rgb}{0.9,0.9,0.9}
+
+% Examples environment
+\theoremstyle{break}
+\theoremframepreskip{1em}
+\theoremframepostskip{1.5em}
+\theoreminframepreskip{0.8em}
+\theoreminframepostskip{0.8em}
+\newframedtheorem{example}{\protect\examplename}[section]
+
+% Remarks environment
+\theoremstyle{plain}
+\theorempreskip{1.5em}
+\theorempostskip{1.5em}
+\newtheorem{remark}{\protect\remarkname}[section]
+
+% Definitions environment
+\theoremstyle{plain}
+\theoremframepreskip{\topsep}
+\theoremframepostskip{\topsep}
+\theoreminframepreskip{0.8em}
+\theoreminframepostskip{0.8em}
+\theoremindent=1em
+\theoremrightindent=1em
+\def\theoremframecommand{\colorbox{env-gray}} 
+\newshadedtheorem{definition}{\protect\definitionname}
+
+% Question environment
+\theoremstyle{nonumberbreak}
+\theoremframepreskip{\topsep}
+\theoremframepostskip{\topsep}
+\theoreminframepreskip{0.8em}
+\theoreminframepostskip{0.8em}
+\theoremindent=1em
+\theoremrightindent=1em
+\def\theoremframecommand{\colorbox{env-gray}} 
+\newshadedtheorem{question}{\protect\questionname}
+
+
+%---------------------------------
+% Translations
+%---------------------------------
+\addto\captionsenglish{\renewcommand{\corollaryname}{Corollary}}
+\addto\captionsenglish{\renewcommand{\definitionname}{Definition}}
+\addto\captionsenglish{\renewcommand{\examplename}{Example}}
+\addto\captionsenglish{\renewcommand{\remarkname}{Remark}}
+\addto\captionsenglish{\renewcommand{\questionname}{Question}}
+\addto\captionsnorsk{\renewcommand{\corollaryname}{Korollar}}
+\addto\captionsnorsk{\renewcommand{\definitionname}{Definisjon}}
+\addto\captionsnorsk{\renewcommand{\examplename}{Eksempel}}
+\addto\captionsnorsk{\renewcommand{\remarkname}{Merknad}}
+\addto\captionsnorsk{\renewcommand{\questionname}{Spørsmål}}
+\providecommand{\corollaryname}{Korollar}
+\providecommand{\definitionname}{Definisjon}
+\providecommand{\examplename}{Eksempel}
+\providecommand{\remarkname}{Merknad}
+\providecommand{\questionname}{Spørsmål}
