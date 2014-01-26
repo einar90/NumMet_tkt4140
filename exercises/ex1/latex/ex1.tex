@@ -142,31 +142,47 @@ Setter inn $t_0 = 0$ i brøkene:
 
 \begin{align}
   z'''(t) & =  \frac{d}{dt} \left( \frac{dv}{dt} \right)
-          = -\left[\frac{2g}{L}v+\frac{f}{D}\cdot\sqrt{v^2}\right] \\
-  z'''(t_0) & =  0 \label{eq:z3t0}
+          = -\left[\frac{2g}{L}v+\frac{f}{D} 
+            \left( |v| \frac{dv}{dt} \right) + \frac{d|v|}{dt} v \right] \\
+  z'''(t_0) = 0 \label{eq:z3t0}
 \end{align}
 
 \begin{align}
-  z^{(4)}(t) = \frac{d^2}{dt^2} \left( \frac{dv}{dt} \right)
-   &= \frac{d^2}{dt^2} \left[-\frac{2g}{L}z(t)-\frac{f}{2D} z'(t)|z'(t)|\right]
-    \nonumber \\ 
-   &= - \frac{2g}{L} z''(t) - \frac{f}{2D} z'''(t) |z'''(t)|
-\end{align}
-
-\begin{align}
-  z^{(4)}(t_0) &= - \frac{2g}{L} z''(t_0) - \frac{f}{2D} z'''(t_0) |z'''(t_0)|
-  \nonumber \\
-  &= -0.05 \cdot 0.3 - 0.05 \cdot 0.0 \cdot 0.0 = -0.015 \label{eq:z4t0}
+  z^{(4)}(t) &= 
+  - \left[ 
+    \frac{2g}{L}\frac{dv}{dt} + 
+    \frac{f}{2D} 
+      \left(
+        2 \frac{d|v|}{dt} \frac{dv}{dt} + 
+        |v| \frac{d^2v}{dt^2} + 
+        v \frac{d^2|v|}{dt^2} 
+      \right) 
+  \right] \\
+  z^{(4)}(t_0) &= 
+    - \left[ 
+    \frac{2g}{L} \cdot 0.3+ 
+    \frac{f}{2D} 
+      \left(
+        2 \cdot 0.3^2 + 
+        0 + 
+        0 
+      \right) 
+  \right] = -0.024 \label{eq:z4t0}
 \end{align}
 
 Setter ligning \eqref{eq:z2t0}, \eqref{eq:z3t0} og \eqref{eq:z4t0} inn i ligning \eqref{eq:utv}:
-\begin{align}
-  z(t) &= -6 + \frac{t^2}{2} \cdot 0.3
+\begin{equation}
+  z(t)  = -6 + \frac{t^2}{2} \cdot 0.3
         + \frac{t^3}{6} \cdot 0.0
-        - \frac{t^4}{24} 0.015 \\
-       &= -6 + \frac{3}{20} t^2
-        - \frac{1}{1600} t^4
-\end{align}
+        - \frac{t^4}{24} 0.024 \nonumber 
+        = -6 + \frac{3t^2}{20}
+        - \frac{t^4}{1000}
+\end{equation}
+
+Setter inn $t=3$:
+\begin{equation}
+  z(3) = -6 + \frac{3\cdot 3^2}{20} - \frac{3^4}{1000} = -4.731
+\end{equation}
 
 % section kontrollregning (end)
 
