@@ -38,3 +38,6 @@
 # LaTeX
 *.fls
 *.pdf
+
+# Matlab
+*.m~
