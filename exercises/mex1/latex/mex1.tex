@@ -2,5 +2,68 @@
 \input{../../common/preamble-addon-listings.tex}
 
 \begin{document}
-  
+\author{Einar Baumann}
+\title{TKT4140 Matlabøving 1}
+\maketitle
+
+\section{Bruk av Eulers metode} % (fold)
+\label{sec:bruk_av_eulers_metode}
+Pendelligning:
+\begin{equation}
+  \label{eq:pendulum}
+  \ddot{\theta}(t) + \sin \theta(t) = 0
+\end{equation}
+\begin{equation}
+  \nonumber
+  \theta(0) = \theta_0, \; \dot{\theta}(0) = \dot{\theta}_0
+\end{equation}
+
+\noindent Eulers metode:
+\begin{equation}
+  y_{n+1} = y_n + h \cdot f(x_n, y_n), \;\; f(x,y) = \frac{dy}{dx}
+\end{equation}
+
+\noindent Eulers metode med symboler fra pendelligningen innsatt:
+\begin{align}
+  \theta_{n+1}        &= \theta_n + \Delta t \cdot \dot{\theta}_n \\
+  \dot{\theta}_{n+1}  &= \dot{\theta}_n + \Delta t \cdot \ddot{\theta}_n \\
+  \ddot{\theta}_{n+1} &= - \sin (\theta_{n+1})
+\end{align}
+% section bruk_av_eulers_metode (end)
+
+
+
+\section{Bruk av Heuns metode} % (fold)
+\label{sec:bruk_av_heuns_metode}
+Skjemaet for Heuns metode er som følger:
+\begin{align}
+  y_{n+1}^p &=  y_n + h \cdot f(x_n,y_n) \\
+  y_{n+1}   &=  y_n + \frac{h}{2} \left[f(x_n,y_n)+f(x_{n+1},y_{n+1}^p)\right]
+\end{align}
+Heuns metode med symboler fra pendelligningen innsatt:
+\begin{align}
+  \theta_{n+1}^p &= \theta_n + \Delta t \cdot \dot\theta_n \\
+  \dot\theta_{n+1}^p &= \dot\theta_n + \Delta t \cdot \ddot\theta_n \\
+  \ddot\theta_{n+1}^p &= -\sin (\theta_{n+1}^p) \\                   
+  \theta_{n+1}     &= \theta_n + \frac{\Delta t}{2} \cdot 
+                      \left[\dot\theta_n+\dot\theta_{n+1}^p)\right] \\
+  \dot\theta_{n+1} &= \dot\theta_n + \frac{\Delta t}{2} \cdot 
+                      \left[\ddot\theta_n+\ddot\theta_{n+1}^p)\right] \\
+  \ddot\theta_{n+1} &= -\sin (\theta_{n+1}) \\                   
+\end{align}
+% section bruk_av_heuns_metode (end)
+
+
+
+
+\clearpage
+\section{Programkode} % (fold)
+\label{sec:programkode}
+\lstinputlisting[%
+  caption={pendel.m},
+  label={lst:pendel},
+  language={Matlab}]
+  {../code/pendel.m}
+% section programkode (end)
+
 \end{document}
