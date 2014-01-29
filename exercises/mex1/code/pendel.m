@@ -38,13 +38,6 @@ for i = 1:n
   E_e(i) = 0.5 * (dtheta_e(i)^2 - dtheta_e(1)^2) + cos(theta_e(1)) - cos(theta_e(i));
 end
 
-% Plotter
-figure('name', 'Amplitude (Euler)'); plot(t, theta_e);
-title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('\theta');
-
-figure('name', 'Energi (Euler)'); plot(t, E_e);
-title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('E');
-
 
 %% Oppgave 2: Bruk av Heuns metode
 
@@ -77,12 +70,6 @@ for i = 1:n
   E_h(i) = 0.5 * (dtheta_h(i)^2 - dtheta_h(1)^2) + cos(theta_h(1)) - cos(theta_h(i));
 end
 
-% Plotter
-figure('name', 'Amplitude (Heun)'); plot(t, theta_h);
-title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('\theta');
-
-figure('name', 'Energi (Heun)'); plot(t, E_h);
-title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('E');
 
 % Lager kombinasjonsplott
 comb_A = figure('name', 'Amplitude (Euler+Heun)');
@@ -91,7 +78,7 @@ plot(t, theta_e, 'color', 'r');
 plot(t, theta_h, 'color', 'b');
 title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('\theta');
 legend('Euler', 'Heun');
-print(comb_A, '-dpdf', 'comb_A.pdf');
+print(comb_A, '-depsc2', 'comb_A.eps');
 
 % Lager kombinasjonsplott
 comb_E = figure('name', 'Energi (Euler+Heun)');
@@ -100,3 +87,15 @@ plot(t, E_e, 'color', 'r');
 plot(t, E_h, 'color', 'b');
 title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('\theta');
 legend('Euler', 'Heun');
+print(comb_E, '-depsc2', '-zbuffer', '-r200', 'comb_E.eps');
+
+
+%% Analytical solution
+eqn = 'D2y+sin(x)=0';
+inits = strcat(strcat('y(0)=',num2str(theta0)), strcat(',Dy(0)=',num2str(dtheta0)));
+y = dsolve(eqn,inits,'x');
+x = t;
+theta_a = eval(vectorize(y));
+
+% Plotting 'analytical'
+figure('name', 'analytical');plot(t,theta_a);
