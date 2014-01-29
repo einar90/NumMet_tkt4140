@@ -41,3 +41,6 @@
 
 # Matlab
 *.m~
+
+# Generated graphics files
+*.eps
