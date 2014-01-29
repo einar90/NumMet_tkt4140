@@ -87,15 +87,4 @@ plot(t, E_e, 'color', 'r');
 plot(t, E_h, 'color', 'b');
 title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('\theta');
 legend('Euler', 'Heun');
-print(comb_E, '-depsc2', '-zbuffer', '-r200', 'comb_E.eps');
-
-
-%% Analytical solution
-eqn = 'D2y+sin(x)=0';
-inits = strcat(strcat('y(0)=',num2str(theta0)), strcat(',Dy(0)=',num2str(dtheta0)));
-y = dsolve(eqn,inits,'x');
-x = t;
-theta_a = eval(vectorize(y));
-
-% Plotting 'analytical'
-figure('name', 'analytical');plot(t,theta_a);
+print(comb_E, '-depsc2', 'comb_E.eps');
