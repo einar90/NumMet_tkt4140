@@ -4,7 +4,7 @@ clear all; close all; clc;
 %% Variable som er felles for oppgave 1 og 2
 % Kjøreparametere
 tmax = 15;                  % Maks tid
-dt = 0.1;                   % Tidsinkrement
+dt = 0.001;                   % Tidsinkrement
 n = round(tmax/dt);         % Antall tidsskritt
 
 % Initialverdier
@@ -71,20 +71,16 @@ for i = 1:n
 end
 
 
-% Lager kombinasjonsplott
-comb_A = figure('name', 'Amplitude (Euler+Heun)');
-hold on;
-plot(t, theta_e, 'color', 'r');
-plot(t, theta_h, 'color', 'b');
-title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('\theta');
-legend('Euler', 'Heun');
-print(comb_A, '-depsc2', 'comb_A.eps');
+% Lager kombinasjonsplott vha. en hjemmekokt figurklasse
+Fig_A = FigurePlot('A_0001', t');
+Fig_A.AddYVec(theta_e', 'Euler', 'b');
+Fig_A.AddYVec(theta_h', 'Heun', 'r');
+Fig_A.PlotLabels(strcat('\Delta t = ', num2str(dt)), 't', '\theta');
+Fig_A.SavePlot();
 
-% Lager kombinasjonsplott
-comb_E = figure('name', 'Energi (Euler+Heun)');
-hold on;
-plot(t, E_e, 'color', 'r');
-plot(t, E_h, 'color', 'b');
-title(strcat('\Delta t = ', num2str(dt))); xlabel('t'); ylabel('\theta');
-legend('Euler', 'Heun');
-print(comb_E, '-depsc2', 'comb_E.eps');
+Fig_E = FigurePlot('E_0001', t');
+Fig_E.AddYVec(E_e', 'Euler', 'b');
+Fig_E.AddYVec(E_h', 'Heun', 'r');
+Fig_E.PlotLabels(strcat('\Delta t = ', num2str(dt)), 't', 'E');
+Fig_E.SavePlot();
+
