@@ -8,15 +8,16 @@
 
 Differensialligningen for en enkeltbølge:
 \begin{equation}
-  y''(x) = a\cdot 3y(x)\cdot \left( 1 - \frac{3}{2}y(x) \right) \label{eq:main}
+  \ddot y(x) = a\cdot 3y(x)\cdot \left( 1 - \frac{3}{2}y(x) \right) \label{eq:main}, \; \ddot y = \frac{d^2 y}{dx^2}
 \end{equation}
 \begin{equation*}
-  y(0) = 1; \;\; y'(0) = 0; \;\; a = \frac{2}{3}
+  y(0) = 1; \;\; \dot y(0) = 0; \;\; a = \frac{2}{3}
 \end{equation*}
 
 \noindent Setter $a=\frac{2}{3}$ inn i \eqref{eq:main}:
 \begin{equation}
-  y''(x) = 2 \cdot y(x)\cdot \left( 1 - \frac{3}{2}y(x) \right)
+  \ddot y(x) = 2 \cdot y(x)\cdot \left( 1 - \frac{3}{2}y(x) \right)
+             = 2y(x) - \left( 3y(x) \right)^2
 \end{equation}
 
 \clearpage
@@ -30,8 +31,8 @@ Differensialligningen for en enkeltbølge:
 
 \noindent Anvendt på vår ligning:
 \begin{align}
-  y'_{n+1} & = y'_n + \Delta x \cdot y''_n \\
-  y_{n+1} & = y_n + \Delta x \cdot y'_n
+  y'_{n+1} & = \dot y_n + \Delta x \cdot \ddot y_n \\
+  y_{n+1} & = y_n + \Delta x \cdot \dot y_n
 \end{align}
 
 \begin{table}[H]
@@ -65,13 +66,87 @@ Heuns metode:
 
 Anvendt på vår ligning:
 \begin{align}
-  (y_{n+1}')^p & = y_n' + \Delta x \cdot y_n'' \\
-  y_{n+1}^p  & = y_n  + \Delta x \cdot y_n'
+  \dot y_{n+1}^p  &= \dot y_n + \Delta x \cdot \ddot y_n \\
+  y_{n+1}^p       &= y_n  + \Delta x \cdot \dot y_n
 \end{align}
 \begin{align}
-  y'_{n+1} & = y'_n + \frac{\Delta x}{2} \cdot (y'_n + (y'_{n+1})^p) \\
-  y_{n+1}  & = y_n  + \frac{\Delta x}{2} \cdot (y_n + y_{n+1}^p)
+  \dot y_{n+1}  &= \dot y_n + \frac{\Delta x}{2} \cdot \left(\ddot y_n + \ddot y_{n+1}^p \right) \\
+  y_{n+1}       &= y_n  + \frac{\Delta x}{2} \cdot (\dot y_n + \dot y_{n+1}^p)
 \end{align}
+
+
+\begin{table}[H]
+  \centering
+  \caption{Resultat av Heun.}
+  \label{tab:heun}
+  \begin{tabularx}{0.7\textwidth}{XXXXXX}
+    \toprule
+    $n$  & $x$  & $y_p$  & $\dot y_p$ & $y$    & $\dot y$ \\
+    \midrule
+    0    & 0.0  & ---    & ---        & 1.0000 &  0.0000 \\
+    1    & 0.2  & 1.0000 & -0.2000    & 0.9800 & -0.2000 \\
+    2    & 0.4  & 0.9400 & -0.3842    & 0.9216 & -0.3692 \\
+    3    & 0.6  & 0.8477 & -0.5102    & 0.8336 & -0.4857 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
 % section heuns_metode (end)
+
+
+\clearpage
+\section{Kontrollregning} % (fold)
+\label{sec:kontrollregning}
+
+\begin{equation}
+  y(x) \approx y(x_0) + (x-x_0) y'(x_0) + \frac{(x-x_0)^2}{2!}y''(x_0)
+       + \frac{(x-x_0)^3}{3!} y'''(x_0) + \frac{(x-x_0)^4}{4!} y^{(4)}(x_0)
+\end{equation}
+Setter inn $x_0 = 0$:
+\begin{equation}
+  y(x) \approx y(0) + x \cdot y'(0) + \frac{x^2}{2}y''(0)
+       + \frac{x^3}{6} y'''(0) + \frac{x^4}{24} y^{(4)}(0)
+\end{equation}
+
+\begin{align}
+  y(0) & = 1 \\
+  y'(0) & = 0
+\end{align}
+
+\begin{align}
+  y''(x) & = 2y(x)\left( 1- \frac{3}{2}y(x) \right)
+           = 2y(x)-3 \left( y(x) \right)^2 \\
+  y''(0) & = 2y(0) - 3\left( y(0) \right)^2 = -1
+\end{align}
+
+\begin{align}
+  y'''(x) = \frac{d}{dx}\left( y''(x) \right) \nonumber
+         &= \frac{d}{dx} \left( 2y(x)-3 \left( y(x) \right)^2 \right) \\
+         &= 2y'(x) - 6 y'(x)y(x) \\
+  y'''(0)&= 2y'(0) - 6 y'(0)y(0) = 0
+\end{align}
+
+\begin{align}
+  y^{(4)}(x)   = \frac{d}{dx} \left( y'''(x) \right)
+              &= \frac{d}{dx} ( 2y'(x) - 6 y'(x)y(x) ) \nonumber\\
+              &=2y''(x) - 6 \left[ y''(x)y(x) + (y'(x))^2 \right] \\
+  y^{(4)}(0)  &= 2(-1) - 6 ( -1\cdot 1 + 0) = 4
+\end{align}
+Setter inn:
+\begin{equation}
+  y(x)  \approx 1  - \frac{x^2}{2} + \frac{x^4}{6}, \;\;
+  y'(x) \approx - x + \frac{2}{3} x^3
+\end{equation}
+
+\begin{equation}
+  y(0.6) \approx 0.8416, \;\; y'(0.6) \approx -0.456
+\end{equation}
+
+\clearpage
+
+
+
+% section kontrollregning (end)
+
 
 \end{document}
