@@ -1,0 +1,77 @@
+\input{../../common/preamble.tex}
+\input{../../common/preamble-addon-listings.tex}
+
+\begin{document}
+\author{Einar Baumann}
+\title{TKT4140 Øving 2}
+\maketitle
+
+Differensialligningen for en enkeltbølge:
+\begin{equation}
+  y''(x) = a\cdot 3y(x)\cdot \left( 1 - \frac{3}{2}y(x) \right) \label{eq:main}
+\end{equation}
+\begin{equation*}
+  y(0) = 1; \;\; y'(0) = 0; \;\; a = \frac{2}{3}
+\end{equation*}
+
+\noindent Setter $a=\frac{2}{3}$ inn i \eqref{eq:main}:
+\begin{equation}
+  y''(x) = 2 \cdot y(x)\cdot \left( 1 - \frac{3}{2}y(x) \right)
+\end{equation}
+
+\clearpage
+
+\section{Eulers metode} % (fold)
+\label{sec:eulers_metode}
+\noindent Eulers metode:
+\begin{equation}
+  y_{n+1} = y_n + h \cdot f(x_n, y_n), \;\; f(x,y) = \frac{dy}{dx}
+\end{equation}
+
+\noindent Anvendt på vår ligning:
+\begin{align}
+  y'_{n+1} & = y'_n + \Delta x \cdot y''_n \\
+  y_{n+1} & = y_n + \Delta x \cdot y'_n
+\end{align}
+
+\begin{table}[H]
+  \centering
+  \caption{Resultat av Euler.}
+  \label{tab:euler}
+  \begin{tabularx}{0.5\textwidth}{XXXX}
+    \toprule
+    $n$   & $x$   & $y$   & $y'$ \\
+    \midrule
+    0     & 0.0   & 1.000 & 0.000  \\
+    1     & 0.2   & 1.000 & -0.200 \\
+    2     & 0.4   & 0.960 & -0.400 \\
+    3     & 0.6   & 0.880 & -0.569 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\clearpage
+
+% section eulers_metode (end)
+
+
+\section{Heuns metode} % (fold)
+\label{sec:heuns_metode}
+Heuns metode:
+\begin{align}
+  y_{n+1}^p &=  y_n + h \cdot f(x_n,y_n) \\
+  y_{n+1}   &=  y_n + \frac{h}{2} \left[f(x_n,y_n)+f(x_{n+1},y_{n+1}^p)\right]
+\end{align}
+
+Anvendt på vår ligning:
+\begin{align}
+  (y_{n+1}')^p & = y_n' + \Delta x \cdot y_n'' \\
+  y_{n+1}^p  & = y_n  + \Delta x \cdot y_n'
+\end{align}
+\begin{align}
+  y'_{n+1} & = y'_n + \frac{\Delta x}{2} \cdot (y'_n + (y'_{n+1})^p) \\
+  y_{n+1}  & = y_n  + \frac{\Delta x}{2} \cdot (y_n + y_{n+1}^p)
+\end{align}
+% section heuns_metode (end)
+
+\end{document}
