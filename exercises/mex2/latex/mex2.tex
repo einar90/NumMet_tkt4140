@@ -1,0 +1,117 @@
+\input{../../common/preamble.tex}
+\input{../../common/preamble-addon-listings.tex}
+
+\begin{document}
+\author{Einar Baumann}
+\title{TKT4140 Matlabøving 2}
+\maketitle
+
+\section{Pendel med bruk av ode45} % (fold)
+\label{sec:pendel_med_bruk_av_ode45}
+
+\begin{equation}
+   \frac{d^2\theta}{dt^2} = - \sin \theta(t) \label{eq:pendel}
+\end{equation}
+Startverdier:
+\begin{equation}
+  \nonumber
+  \theta(0) = \theta_0, \dot \theta (0) = 0
+\end{equation}
+Energifunksjon:
+\begin{equation}
+  E(\theta) = \frac{1}{2} \left[ \dot \theta ^2 - \dot \theta_0^2 \right]
+              + \cos \theta_0 - \cos \theta
+\end{equation}
+
+\noindent Kaller $\theta = y_1$ og omskriver \eqref{eq:pendel} til et ligningssystem:
+\begin{align}
+  \frac{dy_1}{dt} &= y_2 \\
+  \frac{dy_2}{dt} &= -sin(y_1)
+\end{align}
+
+\lstinputlisting[%
+  caption={Matlabskript som løser pendelligningen vha. solveren ode45},
+  label={lst:pendel},
+  language={Matlab}]
+  {../code/mex2_1.m}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics{graphics/1_amplitude.eps}
+  \caption{Plott av amplituden beregnet med ode45.}
+  \label{fig:amplitude}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics{graphics/1_energy.eps}
+  \caption{Plott av energifunksjonen beregnet fra verdiene beregnet med ode45.}
+  \label{fig:energi}
+\end{figure}
+
+% section pendel_med_bruk_av_ode45 (end)
+
+
+\clearpage
+\section{Oscillasjon i U-rør med bruk av ode45} % (fold)
+\label{sec:oscillasjon_i_u_r_r_med_bruk_av_ode45}
+\begin{equation}
+  \frac{d^2z}{dt^2} = - \left[ \frac{2g}{L}z + \frac{f}{2D}v\cdot|v| \right]
+  \label{eq:uror}
+\end{equation}
+\begin{equation}
+  z(0) = -6,\; z'(0) = 0
+\end{equation}
+Skriver $z = y_1$, $v = y_2$ og omskriver til ligningssystem:
+\begin{align}
+  \frac{dy_1}{dt} &= y_2 \label{eq:syst1} \\
+  \frac{dy_2}{dy} &= -\left[ \frac{2g}{L}y_1+\frac{f}{2D}y_2\cdot|y_2| \right] \label{eq:syst2}
+\end{align}
+
+\lstinputlisting[%
+  caption={Matlabskript som løser ligning \eqref{eq:uror} vha. ode45 og funksjonen vist i listing },
+  label={lst:urorskript},
+  language={Matlab}]
+  {../code/mex2_2.m}
+
+\lstinputlisting[%
+  caption={Funksjon som returnerer verdier fra ligningssystemet \eqref{eq:syst1} \eqref{eq:syst2}.},
+  label={lst:urorfun},
+  language={Matlab}]
+  {../code/upipe.m}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[]{graphics/2_pipe.eps}
+  \label{fig:pipe}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{0.5\textwidth}{XXX}
+\toprule
+$t$  & $z$  & $v$ \\
+\midrule
+  0.00 & -6.00 & 0.00 \\
+  0.90 & -5.88 & 0.27 \\
+  2.02 & -5.40 & 0.57 \\
+  3.15 & -4.61 & 0.83 \\
+  4.27 & -3.56 & 1.01 \\
+  5.02 & -2.77 & 1.09 \\
+  6.15 & -1.51 & 1.14 \\
+  7.27 & -0.24 & 1.12 \\
+  8.02 &  0.58 & 1.06 \\
+  9.15 &  1.71 & 0.94 \\
+ 10.27 &  2.68 & 0.78 \\
+ 11.02 &  3.22 & 0.65 \\
+ 12.15 &  3.83 & 0.43 \\
+ 13.27 &  4.18 & 0.20 \\
+ 14.02 &  4.27 & 0.04 \\
+ 15.00 &  4.20 &-0.17 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% section oscillasjon_i_u_r_r_med_bruk_av_ode45 (end)
+
+\end{document}

@@ -4,7 +4,7 @@ clear all; close all; clc;
 %% Variable som er felles for oppgave 1 og 2
 % Kjøreparametere
 tmax = 15;                  % Maks tid
-dt = 0.001;                   % Tidsinkrement
+dt = 0.001;                 % Tidsinkrement
 n = round(tmax/dt);         % Antall tidsskritt
 
 % Initialverdier

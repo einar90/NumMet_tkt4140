@@ -1,0 +1,199 @@
+\input{../../common/preamble.tex}
+\input{../../common/preamble-addon-listings.tex}
+\usepackage{cancel}
+
+\DeclareMathOperator\erf{erf}
+
+\begin{document}
+\author{Einar Baumann}
+\title{TKT4140 Øving 3}
+\maketitle
+
+\section*{Oppgave 1} % (fold)
+\label{sec:oppgave_1}
+
+Ligning:
+\begin{equation}
+  u''(x) + 2x \cdot u'(x) = 0
+  \label{eq:1_ligning}
+\end{equation}
+Randbetingelser:
+\begin{equation}
+  u(0) = 1, \; u(1) = \frac{1}{2}
+\end{equation}
+Analytisk løsning:
+\begin{align}
+  u(x) & = 1 - \frac{\erf(x)}{2\cdot \erf(1)} \\
+  u'(x) & = -\frac{\exp(-x^2)}{\erf(1)\sqrt(\pi)}
+\end{align}
+
+\pagebreak
+\subsection*{a) Løsing med skyteteknikk} % (fold)
+\label{sub:1a}
+Løser \eqref{eq:1_ligning} mhp. $u''(x)$ og setter inn $x=\frac{n}{4}$ og $u'(x) = g(x)$:
+\begin{equation}
+  g'_n = -\frac{n}{2}g_n
+\end{equation}
+Eulerskjema for $u'(x)=g(x)$ og $u(x)$;
+\begin{align}
+  g_{n+1} &= g_n + \frac{1}{4} g'_n \\
+  u_{n+1} &= u_n + \frac{1}{4} g_n
+\end{align}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{1.0\textwidth}{X|XXXXX}
+\toprule
+$n$  & 0   & 1                & 2                & 3     & 4    \\
+$x$  & 0   & 0.25             & 0.50             & 0.75  & 1.00 \\
+\midrule
+$u$  & $1$ & $1+\frac{1}{4}s$ & $1+\frac{1}{2}s$ & $1+\frac{23}{32}s$ & $1+\frac{113}{128}s$ \\
+$g$  & $s$ & $s$              & $\frac{7}{8}s$   & $\frac{21}{32}s$   & $\frac{105}{256}s$   \\
+$g'$ & $0$ & $-\frac{1}{2}s$  & $-\frac{7}{8}s$  & $-\frac{63}{64}s$  & ---                  \\
+\bottomrule
+\end{tabularx}
+\end{table}
+% subsection a_ (end)
+
+
+\pagebreak
+\subsection*{b) Bestemmelse av $s$ og sammenligning med analytisk løsning} % (fold)
+\label{sub:b_bestemmelse_av_}
+
+\begin{equation}
+  u(1) \approx u_4 = 1 + \frac{113}{128}s = \frac{1}{2} \implies s^* = -\frac{64}{113}
+\end{equation}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{1.0\textwidth}{X|XXXX}
+\toprule
+$n$             & 1       & 2       & 3       & 4    \\
+$x$             & 0.25    & 0.50    & 0.75    & 1.00 \\
+\midrule
+$u$ (numerisk)  & 0.8584  & 0.7168  & 0.5929  & 0.5000  \\
+$u$ (analytisk) & 0.8360  & 0.6912  & 0.5780  & 0.5000  \\
+$g$ (numerisk)  & -0.5664 & -0.4956 & -0.3717 & -0.2323 \\
+$g$ (analytisk) & -0.6289 & -0.5214 & -0.3815 & -0.2463 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% subsection b_bestemmelse_av_ (end)
+
+
+\clearpage
+\subsection*{c) Vise at $s^*$ er uavhengig av $s^0, s^1$} % (fold)
+\label{sub:c_vise_at_}
+\begin{equation}
+  s^* = \frac{\phi^1 s^0 - \phi^0 s^1}{\phi^1 - \phi^0}
+\end{equation}
+\begin{align}
+  \phi^0 & = u(1;s^0) - \beta = 1 + \frac{113}{128}s^0 - \beta \\
+  \phi^1 & = u(1;s^1) - \beta = 1 + \frac{113}{128}s^1 - \beta
+\end{align}
+Setter inn:
+\begin{align}
+  s^* &=\frac{ \left( 1 + \cancel{\frac{113}{128}s^1} - \beta \right) s^0
+             - \left( 1 + \cancel{\frac{113}{128}s^0} - \beta \right) s^1}
+             { \left( \cancel{1} + \frac{113}{128}s^1 - \cancel{\beta} \right)
+             - \left( \cancel{1} + \frac{113}{128}s^0 - \cancel{\beta} \right) } \\
+      &=\frac{ \left( 1 - \beta \right) s^0
+             - \left( 1 - \beta \right) s^1}
+             {  - \frac{113}{128} \left( s^0 - s^1 \right) } \\
+      &=\frac{(1-\beta)\cancel{(s^0-s^1)}}{- \frac{113}{128} \cancel{(s^0-s^1)}}
+       = - \frac{128}{113}(1-\beta)
+\end{align}
+% subsection c_vise_at_ (end)
+
+
+% section oppgave_1 (end)
+
+
+\clearpage
+\section*{Oppgave 2} % (fold)
+\label{sec:oppgave_2}
+Ligning:
+\begin{equation}
+  \frac{d^2 u}{dy^2} - 324 \cdot u = -4
+\end{equation}
+Randbetingelser:
+\begin{align}
+  u = 0 & \text{ for } y = 0 \nonumber \\
+  u = 1 & \text{ for } y = 1 \nonumber
+\end{align}
+Analytisk løsning:
+\begin{equation}
+  u(y) = A \sinh(18y) + B \cosh(18y) + \frac{1}{81}
+\end{equation}
+der
+\begin{equation}
+  \nonumber
+  A = \dfrac{1 + \frac{1}{81} [\cosh(18)-1] }{\sinh(18)}, \; B = - \frac{1}{81}
+\end{equation}
+
+
+\subsection*{a) Omskriving til system og løsing med skyteteknikk} % (fold)
+\label{sub:a_omskriving_til_system}
+
+\begin{align}
+  u'(y) & = g(y) \\
+  g'(y) & = 324 \cdot u - 4
+\end{align}
+
+\noindent Eulerskjema:
+\begin{align}
+  u_{n+1}  &= u_n + \frac{1}{3} g_n   \\
+  g_{n+1}  &= g_n + \frac{1}{3} g'_n  \\
+  g'_{n+1} &= 324 \cdot u_{n+1} - 4
+\end{align}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{1.0\textwidth}{X|XXXX}
+    \toprule
+    $n$  & 0    & 1               & 2                          & 3 \\
+    $x$  & 0    & $\frac{1}{3}$   & $\frac{2}{3}$              & 1 \\
+    \midrule
+    $u$  & $0$  & $\frac{1}{3}s$  & $\frac{2}{3}s-\frac{4}{9}$ & $13s-\frac{4}{3}$  \\
+    $g$  & $s$  & $s-\frac{4}{3}$ & $37s-\frac{8}{3}$          & $109s-52$          \\
+    $g'$ & $-4$ & $108s-4$        & $216s-148$                 & ---                \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+% subsection a_omskriving_til_system (end)
+
+\pagebreak
+\subsection*{b) Bestemmelse av $s^*$} % (fold)
+\label{sub:bestemmelse_av_}
+\begin{equation}
+  u(1) = 13s- \frac{4}{3} = 1 \implies s^* = g(0) = \frac{7}{39} \approx0.1795
+\end{equation}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{1.0\textwidth}{X|XXX}
+    \toprule
+    $x$              & $\frac{1}{3}$ & $\frac{2}{3}$ & $1$ \\
+    \midrule
+    $u$ (numerisk)  & 0.0598        &-0.3248    1.0000    \\
+    $u$ (analytisk) & 0.0123        & 0.0148    1.0000    \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+% subsection bestemmelse_av_ (end)
+
+% section oppgave_2 (end)
+
+
+
+
+
+
+
+
+
+
+\end{document}
