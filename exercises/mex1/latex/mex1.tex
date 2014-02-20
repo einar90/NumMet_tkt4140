@@ -1,5 +1,5 @@
-\input{../../common/preamble.tex}
-\input{../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
 
 \begin{document}
 \author{Einar Baumann}
@@ -44,12 +44,12 @@ Heuns metode med symboler fra pendelligningen innsatt:
 \begin{align}
   \theta_{n+1}^p &= \theta_n + \Delta t \cdot \dot\theta_n \\
   \dot\theta_{n+1}^p &= \dot\theta_n + \Delta t \cdot \ddot\theta_n \\
-  \ddot\theta_{n+1}^p &= -\sin (\theta_{n+1}^p) \\                   
-  \theta_{n+1}     &= \theta_n + \frac{\Delta t}{2} \cdot 
+  \ddot\theta_{n+1}^p &= -\sin (\theta_{n+1}^p) \\
+  \theta_{n+1}     &= \theta_n + \frac{\Delta t}{2} \cdot
                       \left[\dot\theta_n+\dot\theta_{n+1}^p)\right] \\
-  \dot\theta_{n+1} &= \dot\theta_n + \frac{\Delta t}{2} \cdot 
+  \dot\theta_{n+1} &= \dot\theta_n + \frac{\Delta t}{2} \cdot
                       \left[\ddot\theta_n+\ddot\theta_{n+1}^p)\right] \\
-  \ddot\theta_{n+1} &= -\sin (\theta_{n+1})                   
+  \ddot\theta_{n+1} &= -\sin (\theta_{n+1})
 \end{align}
 % section bruk_av_heuns_metode (end)
 

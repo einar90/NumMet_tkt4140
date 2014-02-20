@@ -1,5 +1,5 @@
-\input{../../common/preamble.tex}
-\input{../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
 
 
 \title{TKT4140 Numeriske metoder: Øving 1}
@@ -38,12 +38,12 @@ der
 
 \noindent Når vi her anvender Eulers metode har vi at
 \begin{equation}
-  z_{n+1} = z_n + \Delta t \cdot \frac{dz}{dt}\bigg|_{t_n,z_n} = 
+  z_{n+1} = z_n + \Delta t \cdot \frac{dz}{dt}\bigg|_{t_n,z_n} =
     z_n + \Delta t \cdot v_n
 \end{equation}
 og
 \begin{equation}
-  v_{n+1} = v_n + \Delta t \cdot \frac{dv}{dt}\bigg|_{t_n,z_n} = 
+  v_{n+1} = v_n + \Delta t \cdot \frac{dv}{dt}\bigg|_{t_n,z_n} =
     v_n - \Delta t \cdot \left[ \frac{2g}{L}z_n + \frac{f}{2D}v_n \cdot |v_n| \right]
 \end{equation}
 der $\Delta t = 1$.
@@ -85,7 +85,7 @@ og
 \begin{align}
   v_{n+1}^p = & v_n - \Delta t \cdot \left[ \frac{2g}{L}z_n + \frac{f}{2D}v_n            \cdot |v_n| \right] \\
   v_{n+1} = & v_n + \frac{\Delta t}{2} \cdot
-    \left[  
+    \left[
       - \left( \frac{2g}{L}z_n + \frac{f}{2D}v_n \cdot |v_n| \right)
       - \left( \frac{2g}{L}z_{n+1}^p + \frac{f}{2D}v_{n+1}^p \cdot |v_{n+1}^p| \right)
     \right]
@@ -123,7 +123,7 @@ Rekkeutvikling av ligning \eqref{eq:main} rundt $t=0$:
 \end{equation}
 Setter inn $t_0 = 0$ i brøkene:
 \begin{align}
-  z(t) &= \underbrace{z(t_0)}_{z_0=-6} 
+  z(t) &= \underbrace{z(t_0)}_{z_0=-6}
         + t \cdot \underbrace{z'(t_0)}_{=v_0=0}
         + \frac{t^2}{2!} \cdot z''(t_0)
         + \frac{t^3}{3!} \cdot z'''(t_0)
@@ -142,31 +142,31 @@ Setter inn $t_0 = 0$ i brøkene:
 
 \begin{align}
   z'''(t) & =  \frac{d}{dt} \left( \frac{dv}{dt} \right)
-          = -\left[\frac{2g}{L}v+\frac{f}{D} 
+          = -\left[\frac{2g}{L}v+\frac{f}{D}
             \left( |v| \frac{dv}{dt} \right) + \frac{d|v|}{dt} v \right] \\
   z'''(t_0) = 0 \label{eq:z3t0}
 \end{align}
 
 \begin{align}
-  z^{(4)}(t) &= 
-  - \left[ 
-    \frac{2g}{L}\frac{dv}{dt} + 
-    \frac{f}{2D} 
+  z^{(4)}(t) &=
+  - \left[
+    \frac{2g}{L}\frac{dv}{dt} +
+    \frac{f}{2D}
       \left(
-        2 \frac{d|v|}{dt} \frac{dv}{dt} + 
-        |v| \frac{d^2v}{dt^2} + 
-        v \frac{d^2|v|}{dt^2} 
-      \right) 
+        2 \frac{d|v|}{dt} \frac{dv}{dt} +
+        |v| \frac{d^2v}{dt^2} +
+        v \frac{d^2|v|}{dt^2}
+      \right)
   \right] \\
-  z^{(4)}(t_0) &= 
-    - \left[ 
-    \frac{2g}{L} \cdot 0.3+ 
-    \frac{f}{2D} 
+  z^{(4)}(t_0) &=
+    - \left[
+    \frac{2g}{L} \cdot 0.3+
+    \frac{f}{2D}
       \left(
-        2 \cdot 0.3^2 + 
-        0 + 
-        0 
-      \right) 
+        2 \cdot 0.3^2 +
+        0 +
+        0
+      \right)
   \right] = -0.024 \label{eq:z4t0}
 \end{align}
 
@@ -174,7 +174,7 @@ Setter ligning \eqref{eq:z2t0}, \eqref{eq:z3t0} og \eqref{eq:z4t0} inn i ligning
 \begin{equation}
   z(t)  = -6 + \frac{t^2}{2} \cdot 0.3
         + \frac{t^3}{6} \cdot 0.0
-        - \frac{t^4}{24} 0.024 \nonumber 
+        - \frac{t^4}{24} 0.024 \nonumber
         = -6 + \frac{3t^2}{20}
         - \frac{t^4}{1000}
 \end{equation}

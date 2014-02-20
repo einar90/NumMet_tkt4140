@@ -1,5 +1,5 @@
-\input{../../common/preamble.tex}
-\input{../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
 \usepackage{cancel}
 
 \DeclareMathOperator\erf{erf}
@@ -8,5 +8,121 @@
 \author{Einar Baumann}
 \title{TKT4140 Øving 4}
 \maketitle
+
+\begin{equation}
+  f''(\eta) + 2\eta \sqrt{f'(\eta)} = 0
+  \label{eq:main}
+\end{equation}
+\begin{equation*}
+  f(0) = 0, \; f(\delta) = 1
+\end{equation*}
+
+\pagebreak
+
+\section{Løsing av ligning \eqref{eq:main} som initialverdiproblem med Eulers metode} % (fold)
+\label{sec:euler}
+
+Eulers metode:
+
+\begin{align}
+  f_{n+1}  &= f_n + \Delta\eta f_n' \label{eq:euler} \\
+  f_{n+1}' &= f_n' + \Delta\eta f_n''
+\end{align}
+
+\begin{equation}
+  f''(\eta) = -2\eta \sqrt{f'(\eta)}
+\end{equation}
+
+\begin{center}
+  \begin{tabular}{ll|lll}
+  \toprule
+  $n$ & $\eta$ & $f(\eta)$ & $f'(\eta)$ & $f''(\eta)$ \\
+  \midrule
+  0   & 0.0    & 0.0000    & 1.2500     & 0.0000      \\
+  1   & 0.2    & 0.2500    & 1.2500     & -0.4472     \\
+  2   & 0.4    & 0.5000    & 1.1606     & -0.8618     \\
+  3   & 0.6    & 0.7321    & 0.9882     & -1.1929     \\
+  \bottomrule
+  \end{tabular}
+\end{center}
+
+% section euler (end)
+
+
+\section{Omskriving til system} % (fold)
+\label{sec:omskriving_til_system}
+\begin{align}
+  g(\eta)  &= f'(\eta) \\
+  g'(\eta) &= f''(\eta) = -2\eta \sqrt{g(\eta)}
+\end{align}
+\begin{equation*}
+  f(0) = 0, \; f(\delta) = 1
+\end{equation*}
+
+Vi må bestemme $s = f'(0) = g(0)$ slik at $f(1)$ oppfylles. Vi tipper deretter to verdier $s^0$ og $s^1$, og beregner den ``korrekte'' $s$ vha. lineær interpolering.
+% section omskriving_til_system (end)
+
+
+\section{Skjikttykkelse} % (fold)
+\label{sec:skjikttykkelse}
+
+\begin{equation}
+  \frac{d}{d\eta}\left[ \sqrt{f'(\eta)} \right] = \frac{f''(\eta)}{2\sqrt{f'(\eta)}}
+  \label{eq:diff}
+\end{equation}
+Omformer og setter \eqref{eq:diff} inn i \eqref{eq:main}:
+\begin{align}
+  \frac{d}{d\eta}\left[ \sqrt{f'(\eta)} \right] \times 2\sqrt{f'(\eta)} + 2\eta \sqrt{f'(\eta)} &= 0 \nonumber \\
+   \frac{d}{d\eta}\left[ \sqrt{f'(\eta)} \right] &= - \eta \nonumber \\
+   \sqrt{f'(\eta)} &= -\int \eta d\eta = - \frac{\eta^2}{2} + C \nonumber \\
+   f'(\eta) &= \left( - \frac{\eta^2}{2} + C \right)^2
+\end{align}
+
+\begin{align}
+  f'(\delta) = - \frac{\delta^2}{2} + C &= 0 \nonumber \\
+  C &= \frac{\delta^2}{2}
+\end{align}
+
+\begin{equation}
+  f'(\eta) = \left( \frac{\eta^2}{2} + \frac{\delta^2}{2} \right)^2
+\end{equation}
+
+\begin{align}
+  f'(0) &= \left( \frac{0}{2} + \frac{\delta^2}{2} \right)^2 \nonumber \\
+  \sqrt{f'(0)} &= \frac{\delta^2}{2} \nonumber \\
+  2\sqrt{f'(0)} &= \delta^2 \nonumber \\
+  \sqrt{2\sqrt{f'(0)}} &= \delta
+\end{align}
+
+$\therefore$
+% section skjikttykkelse (end)
+
+\section{Eksempel i avsn. 2.2 med nye randbetingelser} % (fold)
+\label{sec:eksempel_i_avsn_2_2_med_nye_randbetingelser}
+\begin{equation}
+  y''(x) = \frac{3}{2} y^2 \label{eq:main2}
+\end{equation}
+\begin{equation}
+  y'(0) = -8, \; y'(1) = -1 \nonumber
+\end{equation}
+
+Omskriver til \eqref{eq:main2} til ligningssystem:
+\begin{align}
+  y_1(x) & = y(x) \\
+  y_2(x) & = y_1'(x) \\
+  y_3(x) & = y_2'(x) = \frac{3}{2} \left[ y_1(x) \right]^2
+\end{align}
+\begin{equation}
+  y_2(0) = -8, \; y_2(1) = -1 \nonumber
+\end{equation}
+
+Vi bestemmer $s = y_1(0)$ slik at randbetingelsen $y_2(1) = -1$ blir oppfylt:
+\begin{equation}
+  \phi(s^m) = y_2(1,s^m) + 1 = 0, \; m = 0,1,\dots
+\end{equation}
+Dette gjøres ved å først gjette to verdier $s^0$ og $s^0$, og deretter bruke sekantmetoden til å bestemme skjæringspunktet $\phi(s) = 0$.
+
+
+% section eksempel_i_avsn_2_2_med_nye_randbetingelser (end)
 
 \end{document}
