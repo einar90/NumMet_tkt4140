@@ -2,9 +2,12 @@
 \input{../../../common/preamble-addon-envs.tex}
 \input{../../../common/preamble-addon-listings.tex}
 \usepackage{url}
+
+% Figure related stuff
 \usepackage{etex}
 \usepackage{tikz,pgfplots}
 \pgfplotsset{compat=1.9}
+\usetikzlibrary{arrows,decorations.markings}
 
 % For importing mixed pdf-tex files
 \usepackage{import}
@@ -36,11 +39,44 @@ Mer spesifikt så fungerer metoden ved at man ser på rabndbetingelsene som en f
 I Figur~\ref{fig:skyting} vil vi finne vinkelen $\alpha$ som gir skytelengden $x=L$. Vi kjenner her betingelsene for $x=0$ og $x=L$, og det er innlysende at problemet kan løses ved å variere $\alpha$.
 
 \begin{figure}[htbp]
-  \centering
-  \import{graphics/}{shooting.pdf_tex}
-  \caption{Illustrasjon av skyting.}
-  \label{fig:skyting}
+\centering
+\begin{tikzpicture}[domain=0:pi,xscale=3,yscale=3]
+  % Axis
+  \draw [black, ->] (0,0) -- (pi+0.5,0) node[right] {$x$};
+  \draw [black, ->] (0,0) -- (0,1.4) node[left] {$y$};
+
+  % Graph
+  \draw [very thick, black, densely dotted, smooth, domain=0:pi, samples=30]
+    plot(\x, {sin(\x r)});
+
+  % v0 vector
+  \draw [thick,black, ->] (0,0) -- (1,1.2) node[above] {$v_0$};
+
+  % alpha arc
+  \draw (0.6,0) arc (0:44:0.7) node[right] {};
+  \node at (.6,.3)[] {$\alpha$};
+
+  % Particle dot
+  \node[circle,draw=gray,inner sep=0pt,minimum size=5pt,fill=gray] at (2,{sin(2 r)}) {};
+  \node at (2,{sin(2 r)})[above] {$m$};
+
+  % Gravity vector
+  \draw [thick, black, ->] (2,{sin(2 r)}) -- (2,0.5) node[below] {$mg$};
+
+  % Velocity vector
+  \draw [thick, black, ->] (2,{sin(2 r)}) -- (2.7, 0.6) node[right] {$v$};
+
+  % L-line
+  \draw [thin, black] (0,-.05)  -- (0,-.15)  {};
+  \draw [thin, black] (pi,-.05) -- (pi,-.15) {};
+  \draw [thin, black] (0,-.1)   -- (pi,-.1)  {};
+  \node at (pi/2,-.2)[] {$L$};
+\end{tikzpicture}
+\caption{Illustrasjon av skyting.}
+\label{fig:skyting}
 \end{figure}
+
+
 
 \subsection{Bestemmelse av randverdi vha. interpolasjon} % (fold)
 \label{sub:bestemme_}
