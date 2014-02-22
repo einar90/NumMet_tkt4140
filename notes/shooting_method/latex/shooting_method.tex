@@ -1,16 +1,12 @@
 \input{../../../common/preamble.tex}
-\input{../../../common/preamble-addon-envs.tex}
 \input{../../../common/preamble-addon-listings.tex}
-\usepackage{url}
+\input{../../../common/preamble-addon-figures.tex}
 
 % Figure related stuff
 \usepackage{etex}
 \usepackage{tikz,pgfplots}
 \pgfplotsset{compat=1.9}
 \usetikzlibrary{arrows,decorations.markings}
-
-% For importing mixed pdf-tex files
-\usepackage{import}
 
 
 \author{Einar Baumann}
@@ -32,48 +28,17 @@
 
 \section{Lineære ligninger} % (fold)
 \label{sec:line_re_ligninger}
-Skyteteknikk er en metode til å transformere et randverdiproblem for en ODL til et ekvivalent initialverdiproblem.\cite{komp}. Metodens navn stammer fra problemstillingen skissert i Figur~\ref{fig:skyting}.
+Skyteteknikk er en metode til å transformere et randverdiproblem for en ODL til et ekvivalent initialverdiproblem\cite{komp}. Metodens navn stammer fra problemstillingen skissert i Figur~\ref{fig:skyting}.
 
 Mer spesifikt så fungerer metoden ved at man ser på rabndbetingelsene som en funksjon av initialbetingelser i et punkt -- dette reduserer randverdiproblemet til å finne initialbetingelsene som gir en rot.
 
 I Figur~\ref{fig:skyting} vil vi finne vinkelen $\alpha$ som gir skytelengden $x=L$. Vi kjenner her betingelsene for $x=0$ og $x=L$, og det er innlysende at problemet kan løses ved å variere $\alpha$.
 
 \begin{figure}[htbp]
-\centering
-\begin{tikzpicture}[domain=0:pi,xscale=3,yscale=3]
-  % Axis
-  \draw [black, ->] (0,0) -- (pi+0.5,0) node[right] {$x$};
-  \draw [black, ->] (0,0) -- (0,1.4) node[left] {$y$};
-
-  % Graph
-  \draw [very thick, black, densely dotted, smooth, domain=0:pi, samples=30]
-    plot(\x, {sin(\x r)});
-
-  % v0 vector
-  \draw [thick,black, ->] (0,0) -- (1,1.2) node[above] {$v_0$};
-
-  % alpha arc
-  \draw (0.6,0) arc (0:44:0.7) node[right] {};
-  \node at (.6,.3)[] {$\alpha$};
-
-  % Particle dot
-  \node[circle,draw=gray,inner sep=0pt,minimum size=5pt,fill=gray] at (2,{sin(2 r)}) {};
-  \node at (2,{sin(2 r)})[above] {$m$};
-
-  % Gravity vector
-  \draw [thick, black, ->] (2,{sin(2 r)}) -- (2,0.5) node[below] {$mg$};
-
-  % Velocity vector
-  \draw [thick, black, ->] (2,{sin(2 r)}) -- (2.7, 0.6) node[right] {$v$};
-
-  % L-line
-  \draw [thin, black] (0,-.05)  -- (0,-.15)  {};
-  \draw [thin, black] (pi,-.05) -- (pi,-.15) {};
-  \draw [thin, black] (0,-.1)   -- (pi,-.1)  {};
-  \node at (pi/2,-.2)[] {$L$};
-\end{tikzpicture}
-\caption{Illustrasjon av skyting.}
-\label{fig:skyting}
+  \centering
+  \includegraphics[]{illustrations/shooting.pdf}
+  \caption{Illustrasjon av skyting.}
+  \label{fig:skyting}
 \end{figure}
 
 
@@ -95,42 +60,10 @@ der $s=g(\alpha)$. Den rette verdien $s=s^*$ er funnet når $\phi(s^*)=0$.
 Vi begynner med å tippe to verdier $s^{(0)}$ og $s^{(1)}$ og beregner de tilhørende verdiene $\phi^{(0)}$ og $\phi^{(1)}$ med formel \eqref{eq:phi}. Den korrekte verdien $s=s^*$ finnes ved lineær interpolasjon, som vist i Figur~\ref{fig:interpolasjon}.
 
 \begin{figure}[htbp]
-\centering
-\begin{tikzpicture}[domain=0:1,xscale=6,yscale=6]
-\newcommand{\xmin}{0.1} \newcommand{\xmax}{.7}  \newcommand{\deltaX}{.65}
-  \begin{scope}
-    % Axis
-    \draw[black,->] (0,0) -- (0.9,0) node[right] {$s$};
-    \draw[black,->] (0,0) -- (0,1) node[left] {$\phi$};
-
-    % Main line
-    \draw [very thick,black,smooth,domain=\xmin:\xmax,samples=2]
-      plot (\x,{-1.5*\x+1)});
-
-    % Main line label
-    \draw[thick, black] (0.27,.65) -- (.40,.70)
-      node[right] {$\phi=k\cdot s + b$};
-
-
-    % Lower rectangle
-    \draw[thick,densely dotted]
-      (.5,0) node[below] {$s^{(1)}$} -- (.5,.25);
-    \draw[thick,densely dotted]
-      (0,.25) node[left] {$\phi^{(1)}$} -- (.5,.25);
-
-    % Upper rectangle
-    \draw[thick,densely dotted]
-      (.3,0) node[below] {$s^{(0)}$} -- (.3,.55);
-    \draw[thick,densely dotted]
-      (0,.55) node[left] {$\phi^{(0)}$} -- (.3,.55);
-
-    % Dot at root
-    \node[circle,draw=black,inner sep=0pt,minimum size=3pt,fill=black] (x0y0) at (2/3,0) {};
-    \node at (2/3,0)[above right] {$s^*$};
-  \end{scope}
-\end{tikzpicture}
-\caption{En illustrasjon av bruk interpolasjon for bestemmelse av $s^*$.}
-\label{fig:interpolasjon}
+  \centering
+  \includegraphics[]{illustrations/interpolation.pdf}
+  \caption{En illustrasjon av bruk interpolasjon for bestemmelse av $s^*$.}
+  \label{fig:interpolasjon}
 \end{figure}
 
 Til interpolasjonen bruker vi følgende lineære funksjon
@@ -147,17 +80,18 @@ Vi ser fra Figur~\ref{fig:interpolasjon} at $\phi=0$ gir oss verdien til $s^*$. 
 \begin{equation}
   s^* = - \frac{b}{k} \label{eq:temp}
 \end{equation}
-Setter videre inn verdiene for $b$ og $k$ i \eqref{eq:temp}:
+Setter videre inn verdiene for $b$ og $k$ i \eqref{eq:temp} og forenkler:
 \begin{equation}
-  s^* = - \dfrac{\frac{s^{(1)}\cdot\phi^{(0)} - \phi^{(1)}\cdot s^{(0)}}{s^{(1)}-s^{(0)}}}{\frac{\phi^{(1)} - \phi^{(0)}}{s^{(1)}-s^{(0)}}}
-      = \dfrac{\phi^{(1)}\cdot s^{(0)} - \phi^{(0)}\cdot s^{(1)}}{\phi^{(1)} - \phi^{(0)}}
+  s^* = \dfrac{\phi^{(1)}\cdot s^{(0)} - \phi^{(0)}\cdot s^{(1)}}{\phi^{(1)} - \phi^{(0)}}\label{eq:scorr}
 \end{equation}
+
+Dette skal vi nå bruke videre i et eksempel.
 
 % subsection bestemme_ (end)
 
 \clearpage
 
-\subsection{En enkel ligning} % (fold)
+\subsection{Eksempel: En enkel ligning} % (fold)
 \label{sub:en_enkel_ligning}
 
 Vi ser på ligningen
@@ -176,19 +110,7 @@ Vi vil få en ny kurve $y(x)$ for hver verdi av $s$ vi velger. Plott av ligning 
 
 \begin{figure}[htb]
   \centering
-  \begin{tikzpicture}
-    \begin{axis}[%
-    legend pos= north west,
-    xmin=0,xmax=1,
-    ymin=0,ymax=1,
-    width=0.7\textwidth,
-    height=0.5\textwidth]
-      \addplot[color=red, domain=0:1]{0.2*sinh(x)};
-      \addlegendentry{$s=0.2$}
-      \addplot[color=blue, domain=0:1]{0.7*sinh(x)};
-      \addlegendentry{$s=0.7$}
-    \end{axis}
-  \end{tikzpicture}
+  \includegraphics[]{illustrations/plot_s.pdf}
   \caption{Plott av ligning \eqref{eq:ex1a} med forskjellige $s$-verider.}
   \label{fig:s_verdier}
 \end{figure}
@@ -202,46 +124,58 @@ I dette tilfellet kan vi, fordi vi kjenner den analytiske løsningen \eqref{eq:e
 
 For å løse vår ligning må vi velge verdier av $s$ helt til betingelsen $y(1)=1$ er oppfylt. For vilkårlige verdier av $s$ blir $y(1)$ da en funksjon av $s$. Vi starter med å skrive \eqref{eq:ex1eq} som et system:
 \begin{align}
-  y'(x) &= g(x) \\
-  g'(x) &= y(x)
+  y'(x) &= g(x) \label{eq:ex1sys1} \\
+  g'(x) &= y(x) \label{eq:ex1sys2}
 \end{align}
-
-%%%%%%%%%%%%%
-% TODO
-%%%%%%%%%%%%%
-
-
-% subsection en_enkel_ligning (end)
-
-
-\subsection{Løsing av en generell 2. ordens lineær differensialligning} % (fold)
-\label{sub:eksempel_l_sing_av_en_2_orden_line_r_differensialligning}
-Vi vil løse følgende generaliserte ligning:
+Bruker ligning \eqref{eq:phi} og setter
 \begin{equation}
-  y''(x) = p(x)\cdot y'(x) + q(x)\cdot y(x) + r(x) \label{eq:2olgen}
+  \phi (s) = y(b;s) - \beta = y(1;s) - 1
 \end{equation}
-med randbetingelser
-\begin{equation}
-  y(a) = \alpha, \; y(b) = \beta \tag{b}
-\end{equation}
-Starter med å skrive \eqref{eq:2olgen} som et ligningssystem:
+der som tidligere nevnt $s=y'(0)=g(0)$. Vi vil nå finne den rette verdien $s=s^*$; det har vi når $\phi(s)=0$.
+
+Vi gjetter nå at $s^{(0)}=0.2, s^{(1)}=0.7$. Dette setter vi inn i ligning \eqref{eq:phi} og får at
 \begin{align}
-  y'(x) &= g(x) \\
-  g'(x) &= p(x)\cdot y'(x) + q(x)\cdot y(x) + r(x)
+  \phi^{(0)} &= \phi(s^{(0)}) = y(1;s^{(0)}) - 1 \label{eq:exphi1} \\
+  \phi^{(1)} &= \phi(s^{(1)}) = y(1;s^{(1)}) - 1 \label{eq:exphi2}
 \end{align}
-% subsection eksempel_l_sing_av_en_2_orden_line_r_differensialligning (end)
+Nå trenger vi en verdi for $y(1;s)$. Det kan vi få ved å bruke f.eks. Eulers metode eller RK4 til å beregne forskjellige verdier for ligngningssystemet \eqref{eq:ex1sys1}, \eqref{eq:ex1sys2}. Ti iterasjoner av Eulers metode med $\Delta x=0.1$ er vist i Tabell \ref{tab:ex1beregn}.
 
-%%%%%%%%%%%%%
-% TODO
-%%%%%%%%%%%%%
+\begin{table}[H]
+  \centering
+  \caption{}
+  \label{tab:ex1beregn}
+  \begin{tabularx}{1.0\textwidth}{X|XXXXXXXXX}
+    \toprule
+    $n$ & 0   & 1    & 2      & 3      &          & 7      & 8     & 9     & 10    \\
+    $x$ & 0   & 0.1  & 0.2    & 0.3    & $\cdots$ & 0.7    & 0.8   & 0.9   & 1.0   \\
+    \midrule
+    y   & 0.0 & 0.1s & 0.20s  & 0.301s &          & 0.735s & 0.856s & 0.985s & 1.122s \\
+    y'  & s   & s    & 1.01s  & 1.030s & $\cdots$ & 1.214s & 1.288s & 1.374s & 1.473s \\
+    y'' & 0.0 & 0.1s & 0.20s  & 0.301s &          & 0.735s & 0.856s & 0.985s & 1.122s \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\noindent Setter nå verdien for $y(1)$ fra tabellen inn i ligninene \eqref{eq:exphi1} og \eqref{eq:exphi2}:
+\begin{align}
+  \phi^{(0)} &= 1.122s^{(0)} - 1 = 1.122 \cdot 0.2 - 1 = -0.7756 \\
+  \phi^{(1)} &= 1.122s^{(1)} - 1 = 1.122 \cdot 0.7 - 1 = -0.2146
+\end{align}
+Dette setter vi nå inn i \eqref{eq:scorr} for å finne en interpolert korrekt verdi for $s$:
+\begin{equation}
+  s^* = \dfrac{\phi^{(1)}\cdot s^{(0)} - \phi^{(0)}\cdot s^{(1)}}{\phi^{(1)} - \phi^{(0)}}
+      = \frac{-0.2146 \cdot 0.2 + 0.7756 \cdot 0.7}{-0.2146+0.7756} = 0.891
+\end{equation}
+For å sjekke løsningen setter vi den beregnede verdien $s^*$ inn i den analytiske løsningen i ligning \eqref{eq:ex1a} og sjekker om randbetingelsen $y(1) = 1$ holder:
+\begin{equation}
+  y(1;s^*) = s^* \cdot \sinh(1) = 0.891 \cdot sinh(1) = 1.0471
+\end{equation}
+Dette er altså en rimelig god tilnærming. Nøyaktigheten kunne vært forbedret ved å bruke RK4 i stedet for Eulers metode.
 
 % section line_re_ligninger (end)
 
 
 \clearpage
-\begin{thebibliography}{1}
-  \bibitem{komp} Numeriske beregninger kompendium, \emph{Jan B. Aarseth}
-  \bibitem{wolf} Wolfram.com artikkel om løsing av randverdiproblemer: \\ \url{http://reference.wolfram.com/mathematica/tutorial/NDSolveBVP.html}
-\end{thebibliography}
+\input{bibliography.tex}
 
 \end{document}
