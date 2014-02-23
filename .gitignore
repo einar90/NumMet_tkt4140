@@ -47,3 +47,6 @@
 notes/shooting_method/latex/pgftest.tex
 notes/shooting_method/latex/shooting_method.thm
 *.ptex
+
+# Unignoring compiled graphics pdf's
+!notes/shooting_method/latex/illustrations/*.pdf
