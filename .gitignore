@@ -46,3 +46,4 @@
 *.eps
 notes/shooting_method/latex/pgftest.tex
 notes/shooting_method/latex/shooting_method.thm
+*.ptex
