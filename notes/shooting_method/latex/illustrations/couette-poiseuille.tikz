@@ -1,0 +1,16 @@
+% -*- root: ../shooting_method.tex -*-
+
+\begin{tikzpicture} [domain=0:5,xscale=1,yscale=1]
+\newcommand{\xmin}{0} \newcommand{\xmax}{3}
+  % Velocity curve
+  \draw [thick, black, smooth, domain=\xmin:\xmax, samples=30]
+    plot(\x, {exp(\x)}) node[right,midway] {$U$};
+
+  % Vertical line for velocity vectors start
+  \draw [thick, black] (\xmin,{exp(\xmin)}) -- (\xmin,{exp(\xmax)});
+
+  % Velocity vectors
+  \foreach \y in {2.5,5,...,17.5} {
+    \draw[-latex] (\xmin, \y) -- ({ln(\y)}, \y);
+  }
+\end{tikzpicture}

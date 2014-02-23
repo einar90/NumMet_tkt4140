@@ -1,0 +1,14 @@
+% -*- root: ../shooting_method.tex -*-
+\begin{tikzpicture}
+  \begin{axis}[%
+  legend pos= north west,
+  xmin=0,xmax=1,
+  ymin=0,ymax=1,
+  width=0.7\textwidth,
+  height=0.5\textwidth]
+    \addplot[color=red, domain=0:1]{0.2*sinh(x)};
+    \addlegendentry{$s=0.2$}
+    \addplot[color=blue, domain=0:1]{0.7*sinh(x)};
+    \addlegendentry{$s=0.7$}
+  \end{axis}
+\end{tikzpicture}

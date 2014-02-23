@@ -1,0 +1,34 @@
+% -*- root: ../shooting_method.tex -*-
+\begin{tikzpicture}[domain=0:1,xscale=6,yscale=6]
+\newcommand{\xmin}{0.1} \newcommand{\xmax}{.7}  \newcommand{\deltaX}{.65}
+  \begin{scope}
+    % Axis
+    \draw[black,->] (0,0) -- (0.9,0) node[right] {$s$};
+    \draw[black,->] (0,0) -- (0,1) node[left] {$\phi$};
+
+    % Main line
+    \draw [very thick,black,smooth,domain=\xmin:\xmax,samples=2]
+      plot (\x,{-1.5*\x+1)});
+
+    % Main line label
+    \draw[thick, black] (0.27,.65) -- (.40,.70)
+      node[right] {$\phi=k\cdot s + b$};
+
+
+    % Lower rectangle
+    \draw[thick,densely dotted]
+      (.5,0) node[below] {$s^{(1)}$} -- (.5,.25);
+    \draw[thick,densely dotted]
+      (0,.25) node[left] {$\phi^{(1)}$} -- (.5,.25);
+
+    % Upper rectangle
+    \draw[thick,densely dotted]
+      (.3,0) node[below] {$s^{(0)}$} -- (.3,.55);
+    \draw[thick,densely dotted]
+      (0,.55) node[left] {$\phi^{(0)}$} -- (.3,.55);
+
+    % Dot at root
+    \node[circle,draw=black,inner sep=0pt,minimum size=3pt,fill=black] (x0y0) at (2/3,0) {};
+    \node at (2/3,0)[above right] {$s^*$};
+  \end{scope}
+\end{tikzpicture}
