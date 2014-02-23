@@ -1,16 +1,34 @@
 % -*- root: ../shooting_method.tex -*-
 
-\begin{tikzpicture} [domain=0:5,xscale=1,yscale=1]
+\begin{tikzpicture}
 \newcommand{\xmin}{0} \newcommand{\xmax}{3}
+  % Axis
+  \draw[-latex] (-5,0) -- (7.5,0) node[right] {$x$};
+  \draw[-latex] (-5,0) -- (-5,5) node[left] {$y$};
+
   % Velocity curve
   \draw [thick, black, smooth, domain=\xmin:\xmax, samples=30]
-    plot(\x, {exp(\x)}) node[right,midway] {$U$};
+    plot(\x, {exp(\x)/5-.2}) {};
+  \node at (3, {exp(2.5)/5}) {$U$};
 
   % Vertical line for velocity vectors start
-  \draw [thick, black] (\xmin,{exp(\xmin)}) -- (\xmin,{exp(\xmax)});
+  \draw [thick, black] (\xmin,{exp(\xmin)/5-.2}) -- (\xmin,{exp(\xmax)/5-.2});
 
   % Velocity vectors
-  \foreach \y in {2.5,5,...,17.5} {
-    \draw[-latex] (\xmin, \y) -- ({ln(\y)}, \y);
+  \foreach \y in {0.5, 1.0, ..., 3.5} {
+    \draw[-latex] (\xmin, \y) -- ({ln((\y+.2)*5)}, \y);
   }
+
+  % Top line
+  \draw (-2.5,{exp(\xmax)/5-.2}) -- (5.5,{exp(\xmax)/5-.2});
+
+  % Bounding curves
+  \draw plot [smooth, tension=1] coordinates {(-2.5,{exp(\xmax)/5-.2}) (-3.5,2) (-4,0)};
+  \draw plot [smooth, tension=1] coordinates {(5.5,{exp(\xmax)/5-.2}) (6.5,2) (7,0)};
+
+  % U0 vector
+  \draw [-latex] (6,{exp(\xmax)/5-.2}) -- (7,{exp(\xmax)/5-.2}) node[right] {$U_0$};
+
+  % Y = L label and line
+  \draw [dotted] (-2.5, {exp(\xmax)/5-.2}) -- (-5,{exp(\xmax)/5-.2}) node [left] {$y=L$};
 \end{tikzpicture}
