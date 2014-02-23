@@ -1,0 +1,126 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+
+% Figure related stuff
+\usepackage{etex}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{arrows,decorations.markings}
+
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Øving 5}} \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+
+
+
+\section{Jeffrey-Hamel strømning} % (fold)
+\label{sec:jeffrey_hamel_str_mning}
+\begin{equation}
+  f'''(\eta) + 2 \mathrm{Re} \cdot \alpha \cdot f(\eta) \cdot f'(\eta) + 4 \alpha^2 f'(\eta) = 0
+  \label{eq:1main}
+\end{equation}
+\begin{equation}
+  f(0) = 1, \; f'(0) = 0, \; f(1) = 0 \tag{b}
+\end{equation}
+
+\subsection{Løsing av \eqref{eq:1main} som initialverdiproblem} % (fold)
+\label{sub:l_sing_av_}
+Eulerskjemaet for ligning \eqref{eq:1main} er som følger:
+\begin{subequations}
+  \begin{align}
+    f_{n+1}    &= f_n   + \Delta \eta f'_n \\
+    f'_{n+1}   &= f'_n  + \Delta \eta f''_n \\
+    f''_{n+1}  &= f''n  + \Delta \eta f'''_n \\
+    f'''_n{+1} &= - 2 \mathrm{Re} \cdot \alpha \cdot f_{n+1} \cdot f'_{n+1} - 4 \alpha^2 f'_{n+1}
+  \end{align}
+\end{subequations}
+
+\begin{table}[H]
+  \centering
+  \label{tab:1euler}
+  \begin{tabularx}{0.7\textwidth}{XXXXX}
+    \toprule
+    $n$ & 0   & 1    & 2    & 3    \\
+    $x$ & 0.0 & 0.05 & 0.10 & 0.15 \\
+    \midrule
+    $f$ & 1.0  &  1.0    &  0.984  &  0.951  \\
+    $f'$ & 0.0  &  -0.325 &  -0.65  &  -0.959 \\
+    $f''$ & -6.5 &  -6.5   &  -6.187 &  -5.572 \\
+    $f'''$ & -0.0 &  6.254  &  12.310 &  17.581 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+% subsection l_sing_av_ (end)
+
+\subsection{Løsing av \eqref{eq:1main} med skyteteknikk} % (fold)
+\label{sub:l_sing_av_eqr}
+\textbf{1)} Skriv ligning \eqref{eq:1main} om til et system:
+\begin{subequations}
+\begin{align}
+  y_1 &= f(\eta) \\
+  y_2 &= f'(\eta) = y'_1 \\
+  y_3 &= f''(\eta) = y'_2 \\
+  y_4 &= f'''(\eta) = y'_3 =  2 \mathrm{Re} \cdot \alpha f_1 f_2 - 4 \alpha^2 f_2
+\end{align}
+\end{subequations}
+
+\noindent \textbf{2)} Bestem $s=y''(0)=y_3(0)$ slik at randbetingelsen $y_1(1)=0$ oppfylles. Setter
+\begin{equation}
+  \phi(s^m) = y_1(1;s^m) - 1, m=0,1,\dots \nonumber
+\end{equation}
+slik at
+\begin{equation}
+   y(1) \rightarrow 0 \text{ for } \phi(s^m) \rightarrow 0, m \rightarrow \infty \nonumber
+\end{equation}
+Dette kan vi finne ved å bruke en iterasjonsprosess, for eksempel sekantmetoden, til å finne nullpunktene til funksjonen $\phi(s)=0$. Vi må gjette to verdier $s^0, s^1$ før vi kan begynne iterasjonsprosessen.
+% subsection l_sing_av_eqr (end)
+
+% section jeffrey_hamel_str_mning (end)
+
+
+\clearpage
+\section{Partikkel langs sirkulær bane} % (fold)
+\label{sec:partikkel_langs_sirkul_r_bane}
+Bevegelsesligning:
+\begin{equation}
+  \frac{d^2\theta}{dt^2} = - \mu \left( \frac{d\theta}{dt} \right)^2 + \frac{g}{R} \left( \cos \theta - \mu \sin \theta \right)
+\end{equation}
+Tolker følgende randbetingelser:
+\begin{equation}
+  \tag{b}
+  \dot\theta(0) = 0, \; \dot\theta(\theta_0) = 0
+\end{equation}
+For å løse ligningen med skyteteknikk skrives den først om til et system:
+\begin{subequations}
+\begin{align}
+  \theta_1 &= \theta(t) \\
+  \theta_2 &= \dot\theta(t) = \dot\theta_1 \\
+  \theta_3 &= \ddot\theta(t) = \dot\theta_2
+\end{align}
+\end{subequations}
+Ettersom oppgaven sier at vi vil finne verdien av $\mu$ som fører til at partikkelen stopper ved $\theta=\theta_0$, vil vi her variere $\mu$ i stedet for $s$ inntil randbetingelsene ``treffer''. $\phi(\mu^{(m)})$ funksjonen vår blir da
+\begin{equation}
+  \phi(\mu^{(m)}) = \theta(\dot\theta=0;\mu^{(m)}) - \theta_0 \label{eq:2phi}
+\end{equation}
+Vi kan gjette to verdier $\mu^0,\mu^1$ bruke sekantmetoden til å finne roten til \eqref{eq:2phi}, som gir oss den korrekte $\mu$-verdien $\mu = \mu^*$.
+% section partikkel_langs_sirkul_r_bane (end)
+
+
+
+\end{document}
