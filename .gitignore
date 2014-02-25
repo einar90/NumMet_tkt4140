@@ -50,3 +50,4 @@ notes/shooting_method/latex/shooting_method.thm
 
 # Unignoring compiled graphics pdf's
 !notes/shooting_method/latex/illustrations/*.pdf
+*.thm
