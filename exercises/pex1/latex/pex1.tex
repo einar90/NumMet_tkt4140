@@ -1,0 +1,158 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+\input{../../../common/preamble-addon-envs.tex}
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Pythonøving 1}} \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+\section{Enkel bruk av Python med numpy} % (fold)
+\label{sec:enkel_bruk_av_numpy}
+
+
+\subsection{Hello world} % (fold)
+\label{sub:hello_world}
+\lstinputlisting[%
+  caption={1a-helloworld.py},
+  label={lst:1a},
+  language={Python}]
+  {../code/1a-helloworld.py}
+% subsection hello_world (end)
+
+
+\subsection{Matriseoperasjoner med numpy} % (fold)
+\label{sub:matriseoperasjoner_med_numpy}
+Bruker \emph{numpy}-funksjoner til alt her. På linje 6 og 7 brukes \texttt{reshape(m,n)} funksjonen til å omforme et lenært array til en $3\times 3$-matrise.
+\lstinputlisting[%
+  caption={1b-matops.py},
+  label={lst:1b},
+  language={Python}]
+  {../code/1b-matops.py}
+% subsection matriseoperasjoner_med_numpy (end)
+
+
+\subsection{Skrive ut fibonaccirekken} % (fold)
+\label{sub:skrive_ut_fibonaccirekken}
+Printer de $n$ første tallene i fibonaccirekken. \texttt{print}-funksjonen fra \emph{Python 3} er importert for å forenkle printing til konsoll uten linjeskift.
+\lstinputlisting[%
+  caption={1c-fibn.py},
+  label={lst:1c},
+  language={Python}]
+  {../code/1c-fibn.py}
+\vspace{-1.2em}
+\begin{programoutput}
+0 + 1 + 1 + 2 + 3 + 5 + 8 + 13 + 21 + ...
+\end{programoutput}
+% subsection skrive_ut_fibonaccirekken (end)
+
+
+\clearpage
+\subsection{Sinusplott} % (fold)
+\label{sub:sinusplott}
+Plottet er vist i Figur~\ref{fig:1d}. Linjene 4-6 endrer fonten muliggjør bruk av LaTeX i plottet. Linje 18 definerer en spesiell type striplet linje. Linje 21-22 spesifiserer spesielle ``ticks'' for $x$-aksen.
+\lstinputlisting[%
+  caption={1d-sineplot.py},
+  label={lst:1d},
+  language={Python}]
+  {../code/1d-sinplot.py}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../code/1d-sineplot.pdf}
+  \caption{Sinusplott generert av koden i Listing~\ref{lst:1d}}
+  \label{fig:1d}
+\end{figure}
+% subsection sinusplott (end)
+
+
+
+\clearpage
+\subsection{Fibonacciplott} % (fold)
+\label{sub:fibonacciplott}
+Plottet er vist i Figur~\ref{fig:1e}. Funksjonen \texttt{fib(n)} returnerer et array som inneholder de $n$ første fibonaccitallene. På linje 16 genereres et array der hvert element er summen av alle fibonaccitallene opp til det punktet (dårlig forklaring).
+\lstinputlisting[%
+  caption={1e-fibplot.py},
+  label={lst:1e},
+  language={Python}]
+  {../code/1e-fibplot.py}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../code/1e-fibplot.pdf}
+  \caption{Plott av summen av fibonaccitallene opp til tall $n$. Generert med koden i Listing~\ref{lst:1e}.}
+  \label{fig:1e}
+\end{figure}
+% subsection fibonacciplott (end)
+
+
+% section enkel_bruk_av_numpy (end)
+
+
+\clearpage
+\section{Pendel} % (fold)
+\label{sec:pendel}
+Eulerskjema:
+\begin{subequations}
+\begin{align}
+  \theta_{n+1}      &= \theta_n  + \Delta t \dot\theta_n \\
+  \dot\theta_{n+1}  &= \dot\theta_n + \Delta t \ddot\theta_n \\
+  \ddot\theta_{n+1} &= - \sin(\theta)
+\end{align}
+\end{subequations}
+Startverdier:
+\begin{equation}
+  \nonumber
+  \theta_0 = \pi/3, \; \dot\theta_0 = + \; \ddot\theta_0 = -\sin(\theta_0)
+\end{equation}
+
+\noindent Analytisk løsning, (G.2.14) i komendiet:
+\begin{subequations}
+\begin{align}
+  \theta     &= 2 \arcsin \left( k\cdot \mathrm{sn}(T-t,k) \right) \\
+  \dot\theta &= 2 k \cdot \mathrm{cn}(T-t,k)
+\end{align}
+\end{subequations}
+
+Løsningen med Eulers metode er selvforklarende. Få å få de analytiske verdiene brukte jeg \texttt{ellipk} og \texttt{ellipj} funksjonene fra \texttt{scipy.special} modulen. Firkemåten til \texttt{ellipk} er enkel: den returnerer bare ett tall. \texttt{ellipj} derimot returnerer verdien for flere forskjellige relaterte funksjoner: \textbf{sn}, \textbf{cn}, \textbf{dn} og \textbf{ph}; av disse er det bare \textbf{sn} og \textbf{cn} vi faktisk bruker.
+
+Plottene av utslaget og energifunksjonen er vist i hhv. Figur \ref{fig:2_theta} og \ref{fig:2_E}.
+
+\lstinputlisting[%
+  caption={2-pendel.py},
+  label={lst:2},
+  language={Python}]
+  {../code/2-pendel.py}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../code/pendel_theta.pdf}
+  \caption{Plott av vinkelutslaget $\theta$ over tid. Generert med koden i Listing~\ref{lst:2}.}
+  \label{fig:2_theta}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../code/pendel_E.pdf}
+  \caption{Plott av energifunksjonen til pendelen. Generert med koden i Listing~\ref{lst:2}.}
+  \label{fig:2_E}
+\end{figure}
+
+% section pendel (end)
+
+
+
+\end{document}
