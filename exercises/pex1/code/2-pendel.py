@@ -74,7 +74,7 @@ pl.xlim([0,tmax])
 pl.xlabel('$t$'); pl.ylabel('$E$')
 pl.title('Energy function')
 pl.legend(loc=3, ncol=2, mode="expand", borderaxespad=0.)
-
 pl.savefig("pendel_E.pdf")
+
 pl.show()
 

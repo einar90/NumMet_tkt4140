@@ -13,9 +13,7 @@ def fib(n):
         F.append(F[-1]+F[-2])
     return F
 
-fibsums = []
-for i in range(1,50):
-    fibsums.append(sum(fib(i)))
+fibsums = [sum(fib(i)) for i in range (1,50)]
 
 pl.semilogy(fibsums)
 pl.xlabel('$n$')
