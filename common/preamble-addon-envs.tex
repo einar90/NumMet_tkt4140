@@ -1,5 +1,5 @@
 %******************************************************************************
-% Custom environment definitions. 
+% Custom environment definitions.
 % REQUIRES the `color' package.
 %******************************************************************************
 
@@ -30,7 +30,7 @@
 \theoreminframepostskip{0.8em}
 \theoremindent=1em
 \theoremrightindent=1em
-\def\theoremframecommand{\colorbox{env-gray}} 
+\def\theoremframecommand{\colorbox{env-gray}}
 \newshadedtheorem{definition}{\protect\definitionname}
 
 % Question environment
@@ -41,8 +41,19 @@
 \theoreminframepostskip{0.8em}
 \theoremindent=1em
 \theoremrightindent=1em
-\def\theoremframecommand{\colorbox{env-gray}} 
+\def\theoremframecommand{\colorbox{env-gray}}
 \newshadedtheorem{question}{\protect\questionname}
+
+% Program output environment
+\theoremstyle{nonumberbreak}
+\theoremframepreskip{\topsep}
+\theoremframepostskip{\topsep}
+\theoreminframepreskip{0.8em}
+\theoreminframepostskip{0.8em}
+\theoremindent=1em
+\theoremrightindent=1em
+\def\theoremframecommand{\colorbox{env-gray}}
+\newshadedtheorem{programoutput}{\protect\programoutputname}
 
 
 %---------------------------------
@@ -53,13 +64,16 @@
 \addto\captionsenglish{\renewcommand{\examplename}{Example}}
 \addto\captionsenglish{\renewcommand{\remarkname}{Remark}}
 \addto\captionsenglish{\renewcommand{\questionname}{Question}}
+\addto\captionsenglish{\renewcommand{\programoutputname}{Output}}
 \addto\captionsnorsk{\renewcommand{\corollaryname}{Korollar}}
 \addto\captionsnorsk{\renewcommand{\definitionname}{Definisjon}}
 \addto\captionsnorsk{\renewcommand{\examplename}{Eksempel}}
 \addto\captionsnorsk{\renewcommand{\remarkname}{Merknad}}
 \addto\captionsnorsk{\renewcommand{\questionname}{Spørsmål}}
+\addto\captionsnorsk{\renewcommand{\programoutputname}{Output}}
 \providecommand{\corollaryname}{Korollar}
 \providecommand{\definitionname}{Definisjon}
 \providecommand{\examplename}{Eksempel}
 \providecommand{\remarkname}{Merknad}
 \providecommand{\questionname}{Spørsmål}
+\providecommand{\programoutputname}{Output}
