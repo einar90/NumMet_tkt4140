@@ -1,0 +1,97 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+\input{../../../common/preamble-addon-envs.tex}
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Pythonøving 2}} \\ [0.5cm]
+    {\textsc {\Large Satellittbanar rundt ein planet} } \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+\noindent Newtons gravitasjonslov:
+\begin{equation}
+  \mathbf{F} = -G \frac{Mm}{r^3} \mathbf{r}
+\end{equation}
+der
+\begin{equation}
+  \nonumber
+  \mathbf{F} = [F_x,F_y] = [m\ddot x,m\ddot y], \;\; \mathbf{r}=[x,y], \;\; r = \sqrt{x^2+y^2}
+\end{equation}
+slik at
+\begin{subequations}
+\begin{equation}
+  \ddot x = -G \frac{Mx}{\left( \sqrt{x^2+y^2} \right)^3} \label{eq:grav_x}
+\end{equation}
+\begin{equation}
+  \ddot y = -G \frac{My}{\left( \sqrt{x^2+y^2} \right)^3} \label{eq:grav_y}
+\end{equation}
+\end{subequations}
+med initialverdier
+\begin{equation}
+  \tag{init}
+  x(t_0) = x_0, \;\; y(y_0) = y_0, \;\; u(t_0) = u_0, \;\; v(t_0) = v_0
+\end{equation}
+
+\section{Omskriving til ligningssystem} % (fold)
+\label{sec:omskriving_til_ligningssystem}
+Skriver om ligning \eqref{eq:grav_x} og \eqref{eq:grav_y} til et system av førsteordens ligninger:
+\begin{align*}
+  \frac{dx}{dt} &= u  \\
+  \frac{dy}{dt} &= v  \\
+  \frac{du}{dt} &= -G \frac{Mx}{\left( \sqrt{x^2+y^2} \right)^3}  \\
+  \frac{dv}{dt} &= -G \frac{My}{\left( \sqrt{x^2+y^2} \right)^3}
+\end{align*}
+Innfører følgende notasjon:
+\begin{equation*}
+  x = g_0, \;\; y = g_1, \;\; u = g_2, \;\; v = g_3
+\end{equation*}
+Ligningssystemet ved tid $n$ blir da
+\begin{subequations}
+\begin{align}
+  \dot g_{0,n} &= g_{2,n}  \\
+  \dot g_{1,n} &= g_{3,n}  \\
+  \dot g_{2,n} &= -G \frac{Mg_{0,n}}{\left( \sqrt{g_{0,n}^2+g_{1,n}^2} \right)^3}  \\
+  \dot g_{3,n} &= -G \frac{Mg_{1,n}}{\left( \sqrt{g_{0,n}^2+g_{1,n}^2} \right)^3}
+\end{align}
+\end{subequations}
+
+\begin{equation}
+  \mathbf{\dot g_n} = \mathbf{f}(g_{0,n}, g_{1,n}, g_{2,n}, g_{3,n})
+\end{equation}
+
+% section omskriving_til_ligningssystem (end)
+
+
+
+\section{Løsing med Runge-Kutta-skjemaet av 4. orden} % (fold)
+\label{sec:l_sing_med_runge_kutta_skjemaet_av_4_orden}
+RK4 skjemaet for $x$-komponentene, sammen med ligningen som beskriver posisjonen, er som følger ($\Delta t = h$):
+\begin{subequations}
+\begin{eqnarray}
+  k_1 &= & \\
+  k_2 &= &
+\end{eqnarray}
+\end{subequations}
+
+% section l_sing_med_runge_kutta_skjemaet_av_4_orden (end)
+
+
+\section{Løsing med RK4 fra odespy} % (fold)
+\label{sec:l_sing_med_rk4_fra_odespy}
+
+% section l_sing_med_rk4_fra_odespy (end)
+
+\end{document}
