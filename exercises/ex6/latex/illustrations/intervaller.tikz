@@ -1,0 +1,27 @@
+% -*- root: ../ex6.tex -*-
+
+\begin{tikzpicture}
+
+  % Main line with end labels
+  \draw [] (1.5,0) -- (0,0) node[above] {$r=0$};
+  \draw [dotted] (1.5,0) -- (3.5,0) node[] {};
+  \draw [] (3.5,0) -- (8.5,0) node[] {};
+  \draw [dotted] (8.5,0) -- (10.5,0) node[] {};
+  \draw [] (10.5,0) -- (12,0) node[above] {$r=1$};
+
+  % Left side ticks
+  \draw [] (0,0.1) -- (0,-0.1) node[below] {0};
+  \draw [] (1,0.1) -- (1,-0.1) node[below] {1};
+
+  % Center ticks
+  \draw [] (4,0.1) -- (4,-0.1) node[below] {$i-2$};
+  \draw [] (5,0.1) -- (5,-0.1) node[below] {$i-1$};
+  \draw [] (6,0.1) -- (6,-0.1) node[below] {$i$};
+  \draw [] (7,0.1) -- (7,-0.1) node[below] {$i+1$};
+  \draw [] (8,0.1) -- (8,-0.1) node[below] {$i+2$};
+
+  % Right side ticks
+  \draw [] (11,0.1) -- (11,-0.1) node[below] {$N$};
+  \draw [] (12,0.1) -- (12,-0.1) node[below] {$N+1$};
+
+\end{tikzpicture}

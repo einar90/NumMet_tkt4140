@@ -1,0 +1,242 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+
+% Figure related stuff
+\usepackage{etex}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{arrows,decorations.markings}
+
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Øving 6 }} \\ [0.5cm]
+    {\textsc {\Large Sirkulært innspent plate med konsentrert enkelt last} } \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+\noindent Differensialligning for utbøyning:
+\begin{equation}
+  \frac{d^3 w}{dr^3} + \frac{1}{r} \frac{d^2 w}{dr^2} - \frac{1}{r^2} \frac{dw}{dr} = \frac{8}{r} \, , \; 0 < r < 1 \label{eq:main}
+\end{equation}
+Randbetingelser:
+\begin{equation}
+  w(1) = \frac{dw}{dr}(1) = 0 \, , \; \frac{fw}{dr}(0) = 0 \tag{b}
+\end{equation}
+Analytisk løsning:
+\begin{subequations}
+\begin{equation}
+  w(r) = r^2 \left[ 2 \ln(r) - 1 \right] + 1 \label{eq:analytical_w}
+\end{equation}
+\begin{equation}
+  \frac{dw}{dr}(r) = 4 r \ln (r) \label{eq:analytical_dw}
+\end{equation}
+\end{subequations}
+
+
+\section{Diskretisering av helningen $\phi$} % (fold)
+\label{sec:diskretisering_av_helningen_phi_}
+Innfører
+\begin{equation}
+  \phi(r) = - \frac{dw}{dr}
+\end{equation}
+i ligning \eqref{eq:main} og får:
+\begin{equation}
+  \frac{d^2 \phi}{dr^2} + \frac{1}{r} \frac{d \phi}{dr} - \frac{\phi}{r^2} = -\frac{8}{r} \label{eq:main_med_helning}
+\end{equation}
+med randbetingelser
+\begin{equation}
+  \phi(0) = \phi(1) = 0 \tag{b}
+\end{equation}
+
+\noindent Deler intervallet $x=[0,1]$ inn i $N+1$ deler med $h \equiv \Delta r = \frac{1}{N+1}$ som illuistrert i Figur~\ref{fig:diskretisering}, og diskretiserer ligning \eqref{eq:main_med_helning} med sentraldifferanser.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{illustrations/intervaller.pdf}
+  \caption{}
+  \label{fig:diskretisering}
+\end{figure}
+
+\noindent Diskretiserer de deriverte leddene i ligning \eqref{eq:main_med_helning}:
+\begin{subequations}
+\begin{equation}
+  \frac{d^2 \phi}{dr^2}\bigg|_i \approx \frac{\phi_{i-1} - 2\phi_i + \phi_{i+1}}{h^2}
+\end{equation}
+\begin{equation}
+  \frac{d \phi}{dr} \bigg|_i \approx \frac{\phi_{i+1} - \phi_{i-1}}{2h}
+\end{equation}
+\end{subequations}
+setter de inn:
+\begin{equation}
+  \frac{\phi_{i-1} - 2\phi_i + \phi_{i+1}}{h^2} + \frac{1}{r_i} \frac{\phi_{i+1} - \phi_{i-1}}{2h} - \frac{\phi_i}{r_i^2} = -\frac{8}{r_i} \label{eq:diskretisert_main}
+\end{equation}
+der $r_i = h\cdot i, i=0,1,\dots,N+1$. Omformer \eqref{eq:diskretisert_main} og multipliserer deretter med $h^2$ før videre forenkling:
+\begin{equation}
+  -\frac{2\phi_i}{h^2} + \frac{\phi_{i-1}}{h^2} + \frac{\phi_{i+1}}{h^2} + \frac{\phi_{i+1}}{2h^2 i} -  \frac{\phi_{i-1}}{2h^2 i} - \frac{\phi_i}{h^2 i^2} = -\frac{8}{h\cdot i} \nonumber
+\end{equation}
+\begin{equation}
+  -2\phi_i + \phi_{i-1} + \phi_{i+1} + \frac{\phi_{i+1}}{2i} -  \frac{\phi_{i-1}}{2 i} - \frac{\phi_i}{i^2} = -\frac{8h}{i} \nonumber
+\end{equation}
+\begin{equation}
+  \phi_{i-1} \left( 1- \frac{1}{2i} \right) + \\
+  \phi_{i}   \left( -2 - \frac{1}{i^2}  \right) + \\
+  \phi_{i+1} \left( 1 + \frac{1}{2i} \right) = \\
+  -\frac{8h}{i}
+\end{equation}
+
+\noindent
+Uttrykkene for diagonalene $a_i, b_i, c_i$ og høyresiden $d_i$ blir da
+\begin{subequations}
+\begin{align}
+  a_i &= 1- \frac{1}{2i}   \\
+  b_i &= -2 - \frac{1}{i^2} \\
+  c_i &= 1 + \frac{1}{2i}   \\
+  d_i &= -\frac{8h}{i}
+\end{align}
+\end{subequations}
+% section diskretisering_av_helningen_phi_ (end)
+
+
+
+
+\section{Løsing av ligningssystemet} % (fold)
+\label{sec:l_sing_av_ligningssystemet}
+Fra randbetingelsene har vi at $\phi(0)=\phi_0=0, \phi(1)=\phi_4=0$. Matrisen vår blir
+\begin{equation}
+  \begin{bmatrix}
+    b_1 & c_1 & 0   \\
+    a_2 & b_2 & c_2 \\
+    0   & a_3 & b_3 \\
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    \phi_1 \\ \phi_2 \\ \phi_3
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    d_1 \\ d_2 \\ d_3
+  \end{bmatrix}
+\end{equation}
+\begin{equation}
+  \begin{bmatrix}
+    -3          &  \frac{3}{2} & 0 \\
+    \frac{3}{4} & -\frac{9}{4} &  \frac{5}{4} \\
+    0           & \frac{5}{6}  & -\frac{19}{9} \\
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    \phi_1 \\ \phi_2 \\ \phi_3
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    -2 \\ -1 \\ -\frac{2}{3}
+  \end{bmatrix}
+\end{equation}
+som har løsning
+\begin{align}
+  \phi_1 &= 1.35238 \nonumber \\
+  \phi_2 &= 1.37143 \nonumber\\
+  \phi_3 &= 0.85714 \nonumber
+\end{align}
+
+% section l_sing_av_ligningssystemet (end)
+
+
+
+
+\clearpage
+\section{Integrering med Heuns metode} % (fold)
+\label{sec:integrering_med_heuns_metode}
+Heuns metode reduseres til trapesmetoden:
+\begin{equation}
+  w_{i+1} = w_i + \frac{h}{2} \left[ \phi_i + \phi_{i+1} \right]
+\end{equation}
+Bruker her ``motsatt'' nummerering av den vi brukte i forige oppgave, ettersom vi kjenner $w(1)$ men ikke $w(0)$. Dermed er $w(0)=w_4$ og $w(1)=w_0$. Dette gjelder også for $\phi$.
+
+\includegraphics[width=0.95\textwidth]{illustrations/intervaller_inv.pdf}
+
+\begin{center}
+\begin{tabular}{l|ll}
+\toprule
+$n$ & $w_n$ & $\phi_n$ \\
+\midrule
+0   & 0      & 0      \\
+1   & 0.1071 & 0.8571 \\
+2   & 0.3857 & 1.3714 \\
+3   & 0.7262 & 1.3524 \\
+4   & 0.8952 & 0      \\
+\bottomrule
+\end{tabular}
+\end{center}
+Og ``oversatt'' tilbake til det tidligere brukte nummereringssystemet:
+\begin{equation}
+  w_0 = 0.8952, \; w_1 = 0.7262, \; w_2 = 0.3857, \; w_3 = 0.1071 \nonumber
+\end{equation}
+
+% section integrering_med_heuns_metode (end)
+
+
+
+\section{Diskretisering med ligning (1.2.10)} % (fold)
+\label{sec:diskretisering_med_ligning_1_2_10}
+Skal nå skrive om
+\begin{equation}
+  \frac{d}{dr} \left[ \frac{1}{r} \frac{d}{dr} \left[ r\cdot \phi(r) \right] \right] = -\frac{8}{r}
+\end{equation}
+Med Ligning (1.2.10) fra kompendiet. Ligning (1.2.10) er som følger:
+\begin{subequations}
+\begin{equation}
+  \frac{d}{dx} \left[ p(x) \cdot \frac{d}{dx}(u(x)) \right]\bigg|_i \approx
+  \frac{p_{i-\frac{1}{2}} \cdot u_{i-1} - \left( p_{i+\frac{1}{2}} + p_{i-\frac{1}{2}} \right)
+  \cdot u_i + p_{i + \frac{1}{2}} \cdot u_{i+1} }{h^2} + \text{feilledd}
+\end{equation}
+\begin{equation}
+  \text{feilledd} = - \frac{h^2}{24} \cdot \frac{d}{dx} \left( p(x) \cdot u'''(x) + \left[ p(x) \cdot u'(x) \right]'' \right) + O(h^3)
+\end{equation}
+\end{subequations}
+I dette tilfelle har vi at
+\begin{align}
+  \nonumber
+  p(x) &= \frac{1}{r}, \;\; p_i = \frac{1}{r_i} = \frac{1}{h\cdot i} \\
+  \nonumber
+  u(x) &= r\cdot \phi(r), \;\; u_i = r_i \phi_i = h\cdot i \cdot \phi_i
+\end{align}
+Det diskretiserte systemet blir da (når man ser bort fra feilledet):
+\begin{multline*}
+    \frac{d}{dr} \left[ \frac{1}{r} \frac{d}{dr} \left[ r\cdot \phi(r) \right] \right] \bigg|_i
+    \approx
+    \frac{
+      \frac{h\cdot(i-1)}{h\cdot\left(i-\frac{1}{2}\right)}  \phi_{i-1} -
+      \left( \frac{1}{h\cdot \left( i+\frac{1}{2} \right) } +
+             \frac{1}{h\cdot \left( i-\frac{1}{2} \right) }
+      \right) \cdot h\cdot i \cdot \phi_i +
+      \frac{h\cdot (i+1)}{h\cdot \left( i + \frac{1}{2} \right)} \cdot
+      \phi_{i+1}
+    }
+    {h^2} = - \frac{8}{h\cdot i} \\
+    \implies
+      \left( \frac{i-1}{i-\frac{1}{2}} \right) \cdot \phi_{i-1} -
+      \left( \frac{i}{i+\frac{1}{2} } +
+             \frac{i}{i-\frac{1}{2} }
+      \right) \cdot \phi_i +
+      \left( \frac{i+1}{i + \frac{1}{2}} \right) \cdot \phi_{i+1}
+    = -\frac{8h}{i}
+\end{multline*}
+
+% section diskretisering_med_ligning_1_2_10 (end)
+
+
+\end{document}
