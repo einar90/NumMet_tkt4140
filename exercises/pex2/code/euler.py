@@ -26,6 +26,7 @@ y = np.zeros(len(ts))
 u = np.zeros(len(ts))
 v = np.zeros(len(ts))
 
+
 def du(x, y):
     return -MG * x / (np.sqrt(x**2 + y**2)**3)
 
@@ -47,5 +48,6 @@ for i in range(0, len(ts)-1):
     u[i+1] = u[i] + DT * du(x[i], y[i])
     v[i+1] = v[i] + DT * dv(x[i], y[i])
 
+pl.figure('Euler position')
 pl.plot(x, y)
 pl.show()

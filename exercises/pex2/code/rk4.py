@@ -19,7 +19,6 @@ tmax = 20.0
 ts = np.linspace(tmin, tmax, tmax/h)
 
 
-
 # Initializing the arrays that will hold the computed results
 x = np.zeros(len(ts))
 y = np.zeros(len(ts))
@@ -34,6 +33,7 @@ def du(x, y):
 def dv(x, y):
     return -(y / (np.sqrt(x**2.0 + y**2.0)**3.0))
 
+
 # Setting t0 values in arrays
 x[0] = x0
 y[0] = y0
@@ -44,41 +44,46 @@ v[0] = v0
 # RK4 main loop
 for i in range(0, len(ts)-1):
 
+    h2 = h / 2.0
+    h6 = h / 6.0
+
     # u and v
-    k1u = h * du(x[i], y[i])
-    k1v = h * dv(x[i], y[i])
+    k1u = du(x[i], y[i])
+    k1v = dv(x[i], y[i])
 
-    k2u = h * du(x[i]+k1u/2.0, y[i]+k1v/2.0)
-    k2v = h * dv(x[i]+k1u/2.0, y[i]+k1v/2.0)
+    k2u = du(x[i]+h2*k1u, y[i]+h2*k1v)
+    k2v = dv(x[i]+h2*k1u, y[i]+h2*k1v)
 
-    k3u = h * du(x[i]+k2u/2.0, y[i]+k2v/2.0)
-    k3v = h * dv(x[i]+k2u/2.0, y[i]+k2v/2.0)
+    k3u = du(x[i]+h2*k2u, y[i]+h2*k2v)
+    k3v = dv(x[i]+h2*k2u, y[i]+h2*k2v)
 
-    k4u = h * du(x[i]+k3u, y[i]+k3v)
-    k4v = h * dv(x[i]+k3u, y[i]+k3v)
+    k4u = du(x[i]+h*k3u, y[i]+h*k3v)
+    k4v = dv(x[i]+h*k3u, y[i]+h*k3v)
 
-    u[i+1] = u[i] + (k1u + 2.0*k2u + 2.0*k3u + k4u) / 6.0
-    v[i+1] = v[i] + (k1v + 2.0*k2v + 2.0*k3v + k4v) / 6.0
+    u[i+1] = u[i] + h6 * (k1u + 2.0*k2u + 2.0*k3u + k4u)
+    v[i+1] = v[i] + h6 * (k1v + 2.0*k2v + 2.0*k3v + k4v)
 
-    # x and y with Heuns method
-    # x[i+1] = x[i] + h/2.0 * (u[i] + u[i+1])
-    # y[i+1] = y[i] + h/2.0 * (v[i] + v[i+1])
+    # x and y
+    k1x = u[i]
+    k1y = v[i]
 
-    k1x = h * u[i]
-    k1y = h * v[i]
+    k2x = (u[i]+u[i+1])/2.0 + h2*k1x
+    k2y = (v[i]+v[i+1])/2.0 + h2*k1y
 
-    k2x = h * (u[i]+k1x/2.0)
-    k2y = h * (v[i]+k1y/2.0)
+    k3x = (u[i]+u[i+1])/2.0 + h2*k2x
+    k3y = (v[i]+v[i+1])/2.0 + h2*k2y
 
-    k3x = h * (u[i]+k2x/2.0)
-    k3y = h * (v[i]+k2y/2.0)
+    k4x = u[i+1] + h*k3x
+    k4y = v[i+1] + h*k3y
 
-    k4x = h * (u[i]+k3x)
-    k4y = h * (v[i]+k3y)
-
-    x[i+1] = x[i] + (k1x + 2*k2x + 2*k3x + k4x) / 6.0
-    y[i+1] = y[i] + (k1y + 2*k2y + 2*k3y + k4y) / 6.0
+    x[i+1] = x[i] + h6 * (k1x + 2.0*k2x + 2.0*k3x + k4x)
+    y[i+1] = y[i] + h6 * (k1y + 2.0*k2y + 2.0*k3y + k4y)
 
 
+pl.figure('RK4 position')
 pl.plot(x, y)
+
+pl.figure('RK4 Velocity')
+pl.plot(u, v)
+
 pl.show()

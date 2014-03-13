@@ -1,0 +1,250 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Øving 7 }} \\ [0.5cm]
+    {\textsc {\Large Varmetransport i konisk kjøleribbe} } \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+
+Varmeledningslignignen i forskjellige dimensjonsløse former:
+
+\begin{equation}
+  \frac{d}{dx} \left( x^2 \frac{d\theta}{dx} \right) - x \beta^2 \theta = 0 \label{eq:form1}
+\end{equation}
+\begin{equation}
+  x \frac{d^2 \theta}{dx^2} + 2 \frac{d\theta}{dx} - \beta^2 \theta = 0 \label{eq:form2}
+\end{equation}
+\begin{equation}
+  \theta = \frac{T-T_\infty}{T_L - T_\infty} \label{eq:theta_def}
+\end{equation}
+
+
+\section{Diskretisering med sentraldifferanser} % (fold)
+\label{sec:diskretisering_med_sentraldifferanser}
+
+Skal diskretisere \eqref{eq:form2} med bruk av sentraldifferanser. Bruker $x_i = i\cdot h$, $i=0,1,\dots , N+1$, der $h\equiv \Delta x = \frac{1}{N+1}$:
+
+\begin{subequations}
+\begin{align}
+  \frac{d^2 \theta}{dx^2} &= \frac{\theta_{i-1} - 2\theta_i + \theta_{i+1}}{h^2} \label{eq:cdiff_2_orden} \\
+  \frac{d\theta}{dx} &= \frac{\theta_{i+1} - \theta_{i-1}}{2h} \label{eq:cdiff_1_orden}
+\end{align}
+\end{subequations}
+Setter \eqref{eq:cdiff_2_orden}, \eqref{eq:cdiff_1_orden} og $x_i=i\cdot h$ inn i \eqref{eq:form2}:
+\begin{align}
+  ih \cdot \frac{\theta_{i-1} - 2\theta_i + \theta_{i+1}}{h^2} + 2 \frac{\theta_{i+1} - \theta_{i-1}}{2h} - \beta^2 \theta_i &= 0 \nonumber \\
+  \frac{1}{h} \left[ i \cdot \left( \theta_{i-1} - 2\theta_i + \theta_{i+1} \right) - \theta_{i-1} + \theta_{i+1} \right] - \beta^2 \theta_i &= 0 \nonumber \\
+  \theta_{i-1} (i-1) + \theta_i (-h\beta^2-2i) + \theta_{i+1} (i+1) &= 0 \nonumber
+\end{align}
+\begin{align}
+  i=1: &= \theta_1 (-h\beta^2-2) + 2\theta_{2} = 0 \\
+  i=N: &= \theta_{N-1} (N-1) + \theta_N (-h\beta^2-2N) &= -(N+1)
+\end{align}
+
+
+% section diskretisering_med_sentraldifferanser (end)
+
+
+
+
+\section{Bestemmelse av $\theta_0$} % (fold)
+\label{sec:bestemmelse_av_theta_0_}
+Har at
+\begin{equation}
+  \theta(x) = \theta_0 + x\cdot \theta'_0 + \frac{x^2}{2}\theta''_0 \label{eq:rekkeutv}
+\end{equation}
+Setter $x=0$ inn i \eqref{eq:form2}:
+\begin{align}
+  2\theta'_0 - \beta^2\theta_0 = 0 \nonumber \\
+  \theta'_0 = \frac{\beta^2}{2}\theta_0 \label{eq:dtheta0}
+\end{align}
+
+Deriverer \eqref{eq:form2}:
+\begin{align}
+  \frac{d}{dx} \left[ x \frac{d^2 \theta}{dx^2} + 2 \frac{d\theta}{dx} - \beta^2 \theta \right] &= 0 \nonumber \\
+  \theta'' + x \theta''' + 2 \theta'' - \beta^2 \theta' &= 0 \nonumber
+\end{align}
+Setter $x=0$:
+\begin{align}
+  3\theta''_0 - \beta^2 \theta'_0 &= 0 \nonumber \\
+\end{align}
+Setter inn \eqref{eq:dtheta0}:
+\begin{align}
+  3\theta''_0 - \frac{\beta^4}{2}\theta_0  &= 0 \nonumber \\
+  \theta''_0 = \frac{\beta^4}{6} \theta_0 \label{eq:ddtheta0}
+\end{align}
+Setter \eqref{eq:dtheta0} og \eqref{eq:ddtheta0} inn i \eqref{eq:rekkeutv}:
+\begin{equation}
+  \theta(x) = \theta_0 \left( 1 + x \frac{\beta^2}{2} + x^2 \frac{\beta^4}{12} \right)
+\end{equation}
+Setter inn $x=h,\theta(h)=\theta_1$:
+\begin{equation}
+  \theta_1 = \theta_0 \left( 1 + h \frac{\beta^2}{2} + h^2 \frac{\beta^4}{12} \right)
+\end{equation}
+\begin{equation}
+  \theta_0 = \frac{\theta_1}{1 + h \frac{\beta^2}{2} + h^2 \frac{\beta^4}{12}} \label{eq:theta0}
+\end{equation}
+
+% section bestemmelse_av_theta_0_ (end)
+
+
+\section{Løsing av sytemet i første oppgave (1/a)} % (fold)
+\label{sec:l_sing_av_sytemet_i_f_rste_oppgave_}
+$h=0.25 \implies N=3$.
+\begin{align*}
+  i = 1: & - \frac{7}{2} \theta_1 + 2 \theta_2 = 0 \\
+  i = 2: & \theta_1 - \frac{7}{2} \theta_2 + 3\theta_3 = 0 \\
+  i = 3: & 2\theta_2 - \frac{7}{2} \theta_3 = -4
+\end{align*}
+\begin{equation*}
+  \begin{bmatrix}
+    -\frac{7}{2} & 2             & 0 \\
+    1            & -\frac{11}{2} & 3 \\
+    0            & 2             & -\frac{15}{2} \\
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    \theta_1 \\ \theta_2 \\ \theta_3
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    0 \\ 0 \\ -4
+  \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+  \theta_0 = 0.11430, \;\; \theta_1 = 0.22145, \;\; \theta_2 = 0.38754, \;\; \theta_3 = 0.63668
+\end{equation*}
+% section l_sing_av_sytemet_i_f_rste_oppgave_ (end)
+
+
+
+\section{Diskretisering og løsing med andre formler} % (fold)
+\label{sec:diskretisering_og_l_sing_med_andre_formler}
+
+\subsection{Diskretisering av \eqref{eq:form1}} % (fold)
+\label{sub:diskretisering}
+Ligning (1.2.10) i kompendiet er som følger:
+\begin{subequations}
+\begin{equation}
+  \frac{d}{dx} \left[ p(x) \cdot \frac{d}{dx}(u(x)) \right]\bigg|_i \approx
+  \frac{p_{i-\frac{1}{2}} \cdot u_{i-1} - \left( p_{i+\frac{1}{2}} + p_{i-\frac{1}{2}} \right)
+  \cdot u_i + p_{i + \frac{1}{2}} \cdot u_{i+1} }{h^2} + \text{feilledd}
+\end{equation}
+\begin{equation}
+  \text{feilledd} = - \frac{h^2}{24} \cdot \frac{d}{dx} \left( p(x) \cdot u'''(x) + \left[ p(x) \cdot u'(x) \right]'' \right) + O(h^3)
+\end{equation}
+\end{subequations}
+Bruker denne ligningen til å diskretisere \eqref{eq:form1}. Da er
+\begin{align*}
+  p &= x^2 \\
+  u &= \theta
+\end{align*}
+Setter inn dette og ser bort fra feilleddet:
+\begin{align*}
+  \frac{d}{dx} \left[ x^2 \cdot \frac{d\theta}{dx} \right]\bigg|_i &\approx
+  \frac{x^2_{i-\frac{1}{2}} \cdot \theta_{i-1} - \left( x^2_{i+\frac{1}{2}} + x^2_{i-\frac{1}{2}} \right)
+  \cdot \theta_i + x^2_{i + \frac{1}{2}} \cdot \theta_{i+1} }{h^2} \\
+  &= \left( i-\frac{1}{2}    \right)^2 \cdot \theta_{i-1} -
+     \left( 2i^2+\frac{1}{2} \right) \cdot \theta_i +
+     \left( i+\frac{1}{2}    \right)^2 \cdot \theta_{i+1}
+\end{align*}
+Diskretiserer det siste leddet:
+\begin{equation}
+  -x_i\beta^2\theta = -ih \cdot \beta^2 \theta_i
+\end{equation}
+Den fullstendige ligningen blir da
+\begin{equation}
+  \left( i-\frac{1}{2}    \right)^2 \cdot \theta_{i-1} -
+  \left( 2i^2+\frac{1}{2} +ih \cdot \beta^2 \right) \cdot \theta_i +
+  \left( i+\frac{1}{2}    \right)^2 \cdot \theta_{i+1} = 0 \label{eq:disk2}
+\end{equation}
+% subsection diskretisering (end)
+
+
+\subsection{Formel for $\theta_0$} % (fold)
+\label{sub:formel_for_theta_0}
+Har oppgitt at
+\begin{equation}
+  \theta'_0 \approx \frac{-3\theta_0 + 4\theta_{1} - \theta_{2}}{2h} \label{eq:oppgitt}
+\end{equation}
+Løser mhp. $\theta_2$:
+\begin{equation}
+  \theta_2 = - 2h\theta'_0 - 3\theta_0 + 4\theta_1 \label{eq:oppgitt_solve}
+\end{equation}
+Setter inn \eqref{eq:dtheta0}:
+\begin{equation}
+  \theta_2 = - 2h \frac{\beta^2}{2}\theta_0 - 3\theta_0 + 4\theta_1 \label{eq:oppgitt_solve_insert}
+\end{equation}
+Setter $i=1$ i \eqref{eq:disk2} og løser mhp. $\theta_0$:
+\begin{equation}
+  \nonumber
+  \frac{1}{4}\theta_0 - \left( \frac{5}{2} + h\beta^2 \right) \theta_1 + \frac{9}{4} \theta_2 = 0
+\end{equation}
+\begin{equation}
+  \theta_0 = \left( 10 + 4h\beta^2 \right) \theta_1 - 9 \theta_2  \label{eq:disk2_i_1}
+\end{equation}
+Setter inn \eqref{eq:oppgitt_solve_insert} og omformer:
+\begin{align*}
+  \theta_0 &= \left( 10 + 4h\beta^2 \right) \theta_1 - 9 \left[ -2h \frac{\beta^2}{2}\theta_0 - 3\theta_0 + 4\theta_1  \right] \\
+  \theta_0 &= \left( 10 + 4h\beta^2 \right) \theta_1 + \theta_0(9h \beta^2 + 27) - 36\theta_1 \\
+  \theta_0(-9h \beta^2 - 26)&= \left(4h\beta^2 -26 \right) \theta_1 \\
+  \theta_0(9h \beta^2 + 26) &= \left( 26 - 4h\beta^2 \right) \theta_1 \\
+  \theta_0 &= \frac{26 - 4h\beta^2}{26 + 9\beta^2h} \theta_1
+\end{align*}
+
+% subsection formel_for_theta_0 (end)
+
+\subsection{Løsing av systemet} % (fold)
+\label{sub:l_sing_av_systemet}
+
+\begin{align*}
+  i=1 &: - 4 \cdot \theta_1 + \frac{9}{4} \cdot \theta_{2} = 0 \\
+  i=2 &: \frac{9}{4}\cdot\theta_{1} - \frac{23}{2} \cdot \theta_2+\frac{25}{4}\cdot\theta_3 = 0 \\
+  i=3 &: \frac{25}{4} \cdot \theta_2 - 23 \cdot \theta_3 = - \frac{49}{4}
+\end{align*}
+
+\begin{equation*}
+  \begin{bmatrix}
+    -4          & \frac{9}{4}   & 0            \\
+    \frac{9}{4} & -\frac{23}{2} & \frac{25}{4} \\
+    0           & \frac{25}{4}  & -23          \\
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    \theta_1 \\ \theta_2 \\ \theta_3
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    0 \\ 0 \\ -\frac{49}{4}
+  \end{bmatrix}
+\end{equation*}
+
+\begin{equation}
+  \theta_0 = 0.11107, \;\; \theta_1 = 0.21936, \;\; \theta_2 = 0.38997, \;\; \theta_3 = 0.63858
+\end{equation}
+
+% subsection l_sing_av_systemet (end)
+
+
+% section diskretisering_og_l_sing_med_andre_formler (end)
+
+
+
+
+\end{document}

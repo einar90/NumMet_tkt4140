@@ -16,6 +16,8 @@ tmax = 20.0
 ts = np.linspace(tmin, tmax, tmax/DT)
 MG = 1.0
 
+g0 = np.zeros(len(ts))
+
 
 def du(x, y):
     return -MG * x / (np.sqrt(x**2 + y**2)**3)
