@@ -1,0 +1,76 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Matlabøving 3 }} \\ [0.5cm]
+    {\textsc {\Large Jeffrey-Hamel strømning og eksempel fra 2.2} } \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+\section{Jeffrey-Hamel strømning} % (fold)
+\label{sec:jeffrey_hamel_str_mning}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{graphics/plot-jefham}
+  \caption{Plott av løsningen til Jeffrey-Hamel ligningen}
+  \label{fig:label}
+\end{figure}
+
+\lstinputlisting[%
+  caption={jefham.m},
+  label={lst:jefham},
+  language={Matlab}]
+  {../code/jefham.m}
+
+\lstinputlisting[%
+  caption={jefhamsec.m},
+  label={lst:jefhamsec},
+  language={Matlab}]
+  {../code/jefhamsec.m}
+
+% section jeffrey_hamel_str_mning (end)
+
+
+\clearpage
+\section{Eksempel fra seksjon 2.2} % (fold)
+\label{sec:eksempel_fra_seksjon_2_2}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{graphics/plot-eks22}
+  \caption{Plott av løsning til ligningen i eksempel i seksjon 2.2.}
+  \label{fig:eks22}
+\end{figure}
+
+\lstinputlisting[%
+  caption={eks22fun.m},
+  label={lst:eks22fun},
+  language={Matlab}]
+  {../code/eks22fun.m}
+
+\lstinputlisting[%
+  caption={eks\_avs2\_2.m},
+  label={lst:eks_avs2_2.m},
+  language={Matlab}]
+  {../code/eks_avs2_2.m}
+
+% section eksempel_fra_seksjon_2_2 (end)
+
+
+
+\end{document}
