@@ -1,4 +1,5 @@
 \input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-envs.tex}
 \input{../../../common/preamble-addon-listings.tex}
 \input{../../../common/preamble-addon-figures.tex}
 
@@ -23,12 +24,53 @@
 
 \section{Jeffrey-Hamel strømning} % (fold)
 \label{sec:jeffrey_hamel_str_mning}
+Ligningen som løses er som følger:
+\begin{equation}
+  f'''(\eta) + 2 \mathrm{Re} \alpha \cdot f(\eta) \cdot f'(eta) + 4 \alpha^2 f'(\eta) = 0
+\end{equation}
+\begin{equation}
+  \tag{b}
+  f(0) = 1, \;\; f'(0) = 0, \;\; f(1) = 0
+\end{equation}
+Skrevet om til ligningssystem:
+\begin{subequations}
+\begin{align}
+  f'_1 &= f_2 \\
+  f'_2 &= f_3 \\
+  f'_3 &= -2 \alpha \cdot f_2 \left( \mathrm{Re}\cdot f_1 2 \alpha \right)
+\end{align}
+\end{subequations}
+\begin{equation}
+  \tag{b}
+  f_1(0) = 1, \;\; f_2(0) = 0, \;\; f_1(1) = 0
+\end{equation}
+
+Dette ligningssystemet er programmert i funksjonen vist i Listing~\ref{lst:jefham}. Skytemetoden med sekantmetoden er brukt til å finne $s^*$ og løse systemet. Dette er vist i Listing~\ref{lst:jefhamsec}. Output av programmet er som følger:
+
+\begin{programoutput}
+\begin{verbatim}
+        itr.      s          ds
+
+         1    -6.456906   -4.569e-01
+         2    -6.485060   -2.815e-02
+         3    -6.483644    1.416e-03
+         4    -6.483648   -4.056e-06
+
+         eta        f          f'        f"
+
+         0.00   1.000000   0.000000  -6.48364e+00
+         1.00   0.000001  -0.078316   3.33591e+00
+\end{verbatim}
+\end{programoutput}
+Vi har altså at $s^* = y''(0) \approx -6.484$. De beregnede verdiene for $f(\eta), f'(\eta), f''(\eta)$ med denne initialverdien er vist i Figur~\ref{fig:jefham}.
+
+\clearpage
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{graphics/plot-jefham}
   \caption{Plott av løsningen til Jeffrey-Hamel ligningen}
-  \label{fig:label}
+  \label{fig:jefham}
 \end{figure}
 
 \lstinputlisting[%
@@ -49,6 +91,46 @@
 \clearpage
 \section{Eksempel fra seksjon 2.2} % (fold)
 \label{sec:eksempel_fra_seksjon_2_2}
+Ligningen løsses er som følger:
+\begin{equation}
+  y''(x) = \frac{3}{2} \left[ y(x) \right]^2
+\end{equation}
+\begin{equation}
+  \tag{b}
+  y'(0) = -8, \;\; y'(1) = -1
+\end{equation}
+Skrevet om til ligningssystem:
+\begin{subequations}
+\begin{align}
+  y'_1(x) &= y_2(x) \\
+  y'_2(x) &= \frac{3}{2} \left[ y_1(x) \right]^2
+\end{align}
+\end{subequations}
+\begin{equation}
+  \tag{b}
+  y_2(0) = -8, \;\; y_2(1) = -1
+\end{equation}
+
+Dette ligningssystemet er programmert i funksjonen vist i Listing~\ref{lst:eks22fun}. Skytemetoden med sekantmetoden er brukt til å finne $s^*$ og løse systemet. Dette er vist i Listing~\ref{lst:eks_avs2_2.m}. Output av programmet er som følger:
+
+\begin{programoutput}
+\begin{verbatim}
+        itr.      s          ds
+
+         1     2.369604   -6.304e-01
+         2     2.354057   -1.555e-02
+         3     2.355254    1.197e-03
+         4     2.355254    6.658e-08
+
+         x        y          y'
+
+         0.00   2.355254  -8.000000
+         1.00  -3.682433  -1.000000
+\end{verbatim}
+\end{programoutput}
+
+Vi har altså at $s^* = y(0) \approx 2.355$. De beregnede verdiene for $f(x)$ og $f'(x)$ med denne initialverdien er vist i Figur~\ref{fig:eks22}.
+\clearpage
 
 \begin{figure}[htbp]
   \centering
