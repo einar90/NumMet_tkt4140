@@ -1,0 +1,189 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Øving 8 }} \\ [0.5cm]
+    {\textsc {\Large Linearisering} } \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+
+
+\section*{Oppgave 1} % (fold)
+\label{sec:oppgave_1}
+
+\begin{equation}
+  f''' + f\cdot f'' - (f')^2 = 0, \;\; x > 0 \label{eq:1_main}
+\end{equation}
+\begin{equation}
+  \tag{b}
+  f(0) = 0, \;\; f'(0) = 1, \;\; f'(\eta) = 0 \text{ for } \eta \rightarrow \infty
+\end{equation}
+
+\noindent Sentraldifferanser, med $\Delta \eta = h$:
+\begin{subequations}
+\begin{align}
+  f'''_i &= \frac{f_{i+2} - 2f_{i+1} + 2f_{i-1} - f_{i-2}}{2h^3} + O(h^2) \\
+  f''_i  &= \frac{f_{i+1} - 2f_i + f_{i-1}}{h^2} + O(h^2) \\
+  f'_i   &= \frac{f_{i+1} - f_{i-1}}{2h} + O(h^2)
+\end{align}
+\end{subequations}
+
+\noindent Skriver om \eqref{eq:1_main} til system av to ligninger:
+\begin{subequations}
+\begin{equation}
+  f' = g \label{eq:1_g}
+\end{equation}
+\begin{equation}
+  g'' + f \cdot g' - g^2 = 0
+\end{equation}
+\end{subequations}
+\begin{equation}
+  \tag{b}
+  f(0) = 0, \;\; g(0) = 1, \;\; g(\eta_\infty) = 0
+\end{equation}
+Setter inn sentraldifferansene og bytter til den teite notasjonen:
+\begin{equation*}
+  \frac{g_{i+1} - 2g_i + g_{i-1}}{h^2} +
+  f_i \cdot \frac{g_{i+1} - g_{i-1}}{2h} -
+  g_i^2 = 0
+\end{equation*}
+\begin{equation}
+  g_{i+1}^{m+1} - 2g_i^{m+1} + g_{i-1}^{m+1} +
+  \frac{h}{2} f_i^{m+1} \cdot (g_{i+1}^{m+1} - g_{i-1}^{m+1}) -
+  h^2(g_i^{m+1})^2 = 0
+\end{equation}
+Linearisering:
+\begin{subequations}
+\begin{equation}
+  f_i^{m+1} \cdot (g_{i+1}^{m+1} - g_{i-1}^{m+1}) \approx
+  f_i^m g_{i+1} - f_i^m g_{i+1}^m + f_i g_{i+1}^m - f_i^m g_{i-1} + f_i^m g_{i-1}^m - f_i g_{i-1}^m
+\end{equation}
+\begin{equation}
+  (g_i^{m+1})^2 \approx 2g_i g_i^m - (g_i^m)^2
+\end{equation}
+\end{subequations}
+der størrelser uten superskript heretter henviser til iterasjon $m+1$. Setter alt sammen:
+\begin{equation}
+  g_{i+1} - 2g_i + g_{i-1} +
+  \frac{h}{2} \left[ f_i(g_{i+1}-g_{i-1}) + \delta f_i (g_{i+1}^m - g_{i-1}^m) \right] -
+  h^2 (2g_i g_i^m - (g_i^m)^2) = 0
+\end{equation}
+\begin{equation}
+  g_{i+1} \left( 1 + \frac{hf_i}{2} \right) -
+  g_i (2 - 2 h^2 g_i^m) +
+  g_{i-1} \left( 1 - \frac{hf_i}{2} \right)
+  =  - h^2 (g_i^m)^2 - \frac{h}{2} \delta f_i (g_{i+1}^m - g_{i-1}^m)
+\end{equation}
+der $\delta g_i = g_i^{m+1}-g_i^m$. Antar at $\delta f_i \ll f_i$, neglisjerer derfor siste ledd på høyre side:
+\begin{equation}
+  g_{i+1} \left( 1 + \frac{hf_i}{2} \right) -
+  g_i (2- 2 h^2 g_i^m) +
+  g_{i-1} \left( 1 - \frac{hf_i}{2} \right)
+  = - h^2 (g_i^m)^2 \label{eq:1_trap}
+\end{equation}
+og \eqref{eq:1_g} gir
+\begin{equation}
+  f'_i = g_i \implies f_i = \int_0^{\eta_i} g_i \, d\eta \label{eq:1_fi}
+\end{equation}
+\eqref{eq:1_fi} løses med trapesmetoden:
+\begin{equation}
+  f_{n+1} = f_n + \frac{h}{2} \left[ g_n + g_{n+1} \right]
+\end{equation}
+der vi kjenner $g_0$. \eqref{eq:1_trap} kan deretter løses med Thomas algoritmen.
+
+% section oppgave_1 (end)
+
+
+
+\section*{Oppgave 2} % (fold)
+\label{sec:oppgave_2}
+
+\subsection*{Første} % (fold)
+\label{sub:f_rste}
+
+
+\begin{equation}
+  A = \sqrt{f_{i+1} - 2f_i + f_{i-1}}
+\end{equation}
+Taylorutviklingen i ligning (3.4.12) i kompendiet gir at
+\begin{equation}
+  A \approx A^m
+  + \delta f_{i-1} \left( \frac{\partial A}{\partial f_{i-1}} \right)^m
+  + \delta f_{i} \left( \frac{\partial A}{\partial f_{i}} \right)^m
+  + \delta f_{i+1} \left( \frac{\partial A}{\partial f_{i+1}} \right)^m
+\end{equation}
+der $\delta f = f^{m+1} - f^m$. Deriverer:
+\begin{equation}
+  \frac{\partial A}{\partial f_{i-1}} = \frac{\partial A}{\partial f_{i+1}} = \frac{1}{2A}
+\end{equation}
+\begin{equation}
+  \frac{\partial A}{\partial f_i} = - \frac{1}{A}
+\end{equation}
+
+Setter dette inn:
+
+\begin{equation*}
+  A \approx A^m
+  + \delta f_{i-1} \left( \frac{1}{2A^m} \right)
+  + \delta f_{i} \left( - \frac{1}{A^m} \right)
+  + \delta f_{i+1} \left( \frac{1}{2A^m} \right)
+\end{equation*}
+\begin{equation}
+  A \approx A^m + \frac{1}{2A^m} \left( \delta f_{i-1} + 2 \delta f_{i} + \delta f_{i+1} \right)
+\end{equation}
+der $A = A^{m+1}$ og $A^m = \sqrt{f_{i+1}^m - 2f_{i}^m + f_{i-1}^m}$.
+
+% subsection f_rste (end)
+
+
+\subsection*{Andre} % (fold)
+\label{sub:andre}
+
+\begin{equation}
+  B = f_{i+1} \cdot \sqrt{f_{i+1} - 2 f_i + f_{i-1}}
+\end{equation}
+\begin{equation}
+  B \approx B^m
+  + \delta f_{i-1} \left( \frac{\partial B}{\partial f_{i-1}} \right)^m
+  + \delta f_{i} \left( \frac{\partial B}{\partial f_{i}} \right)^m
+  + \delta f_{i+1} \left( \frac{\partial B}{\partial f_{i+1}} \right)^m
+\end{equation}
+\begin{subequations}
+\begin{align}
+  \frac{\partial B}{\partial f_{i+1}} &= \frac{3 f_{i+1} - 4 f_{i} + 2 f_{i-1}}{2 \sqrt{f_{i+1} - 2 f_{i} + f_{i-1}}} \\
+  \frac{\partial B}{\partial f_{i}}   &= \frac{-(f_{i+1})^2}{B} \\
+  \frac{\partial B}{\partial f_{i-1}} &= \frac{(f_{i+1})^2}{2B}
+\end{align}
+\end{subequations}
+Setter inn i rekkeutviklingen:
+\begin{equation}
+  B \approx B^m
+  + \delta f_{i-1} \left( \frac{(f_{i+1})^2}{2B} \right)^m
+  + \delta f_{i} \left( \frac{-(f_{i+1})^2}{B} \right)^m
+  + \delta f_{i+1} \left( \frac{2B^2}{2 B} \right)^m
+\end{equation}
+
+% subsection andre (end)
+
+
+% section oppgave_2 (end)
+
+
+
+
+\end{document}
