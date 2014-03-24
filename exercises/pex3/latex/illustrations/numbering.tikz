@@ -1,0 +1,16 @@
+% -*- root: ../pex3.tex -*-
+
+\begin{tikzpicture} [dot/.style={circle,fill=black,minimum size=4pt,inner sep=0pt,
+            outer sep=-1pt}]
+  \newcommand{\xmax}{3}
+  \newcommand{\ymax}{3}
+  \foreach \x in {0, 1, ..., \xmax} {
+    \foreach \y in {0, 1, ..., \ymax} {
+      \pgfmathsetmacro\result{\x + \y * (\ymax+1)}
+      \node [dot] at (\x,\y) {};
+      \node at ($(\x,\y) + (0.3,0.3)$) {\pgfmathprintnumber{\result}};
+      \draw [dotted] (\x,0) -- (\x,\ymax) {};
+      \draw [dotted] (0,\y) -- (\xmax,\y) {};
+    }
+  }
+\end{tikzpicture}

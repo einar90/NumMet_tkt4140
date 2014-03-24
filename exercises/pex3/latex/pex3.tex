@@ -1,0 +1,164 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+\lstset{language={Python}}
+
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Pythonøving 3 }} \\ [0.5cm]
+    {\textsc {\Large Temperaturfelt i bjelketverrsnitt} } \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+\section*{Oppgave 1}
+Skal diskretisere og løse den stasjonære varmeledningsligninga:
+\begin{equation}
+  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} = 0
+\end{equation}
+Randverdiene er vist i illustrasjonen i Figur~\ref{fig:system}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[]{illustrations/system.pdf}
+  \caption{Bjelketverrsnitt}
+  \label{fig:system}
+\end{figure}
+
+Til diskretiseringen brukes 5-punktsformelen (illustrert i Figur~\ref{fig:stencil}). Resultatet av diskretiseringen er som følger:
+\begin{equation}
+  u_{i-1,j} + u_{i+1,j} + u_{i,j-1} + u_{i,j+1} - 4u_{i,j} = 0
+\end{equation}
+for
+\begin{equation}
+\nonumber
+  0<i<N_i-1,\;\; 0<j<N_j-1
+\end{equation}
+der $N_i$ og $N_j$ hhv. er antallet punkter i $x$- og $y$-retning. Utenfor dette er randen, der alle verdiene allerede er kjente. Den lokale $i,j$-indekseringen som er brukt er illustrert i Figur~\ref{fig:indexing}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{illustrations/stencil.pdf}
+  \caption{Illustrasjon av stensil for fempunktsformelen.}
+  \label{fig:stencil}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{illustrations/mesh.pdf}
+  \caption{Illustrasjon av måten $i,j$-koordinatene er brukt på overflaten. Her er $N_i=N_j=4$, og systemet er null-indeksert.}
+  \label{fig:indexing}
+\end{figure}
+
+For å få dette inn i en matrise på en god måte bruker vi en global indeksering. ``Mønsteret'' som er valgt er vist i Figur~\ref{fig:numbering}: fra venstre mot høyre.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{illustrations/numbering.pdf}
+  \caption{Illustrasjon av ligningsnumereringen som er brukt.}
+  \label{fig:numbering}
+\end{figure}
+
+Setter temperaturen i hjørnene lik  gjennomsnittet av temperaturen på kantene inn mot hjørnet.
+
+Løsningsmetoden jeg har brukt benytter seg av Kroneckerproduktet $A\otimes B$ av to matriser (også kalt tensorproduktet), og er beskrevet i seksjon A.5 i \cite{strang}. Skrevet som en blokkmatrise er Kroneckerproduktet som følger:
+\begin{equation}
+  A \otimes B =
+  \begin{bmatrix}
+    a_11 B & a_12 B & \cdots & a_1n B \\
+    a_21 B & a_22 B & \cdots & a_2n B \\
+    \cdot  & \cdot  & \cdots & \cdot  \\
+    a_m1 B & a_m2 B & \cdots & a_mn B
+  \end{bmatrix}
+\end{equation}
+Her bruker jeg Kroneckerproduktet til å lage en 2D differansematrise for fempunktsformelen ut fra 1D differansematrisen for trepunktsformelen langs én rad. Matrisene programmet mitt genererer for $n=4$ punkter er som følger:
+
+\begin{align}
+   \text{1D Differansematrise, én linje: } A &=
+   \begin{bmatrix}
+      2 & -1 &  0 &  0 \\
+     -1 &  2 & -1 &  0 \\
+      0 & -1 &  2 & -1 \\
+      0 &  0 & -1 &  2
+   \end{bmatrix} \\
+   \text{Identitetsmatrise: } I &=
+   \begin{bmatrix}
+     1 & 0 & 0 & 0 \\
+     0 & 1 & 0 & 0 \\
+     0 & 0 & 1 & 0 \\
+     0 & 0 & 0 & 1
+   \end{bmatrix} \\
+ \end{align}
+Et utdrag av 2D differansematrisen $T$ som brukes videre er som følger (den er rimelig stor, $16\times 16$):
+\begin{equation}
+  T = (A \otimes I) + (I \otimes A) =
+  \begin{bmatrix}
+      4 & -1 &  0 &  0 & -1 & -0 &  0 &  0 &  0 & \cdots  0 \\
+     -1 &  4 & -1 &  0 & -0 & -1 & -0 &  0 &  0 & \cdots  0 \\
+        &    &    &    &    & \cdot &    &    &    &        \\
+      0 & -0 & -1 & -0 &  0 & -1 &  4 & -1 &  0 & \cdots  0 \\
+      0 &  0 & -0 & -1 &  0 &  0 & -1 &  4 &  0 & \cdots  0 \\
+      0 &  0 &  0 &  0 & -1 & -0 &  0 &  0 &  4 & \cdots  0 \\
+      0 &  0 &  0 &  0 & -0 & -1 & -0 &  0 & -1 & \cdots  0 \\
+        &    &    &    &    & \cdot &    &    &    &        \\
+      0 &  0 &  0 &  0 &  0 &  0 &  0 &  0 &  0 & \cdots -1 \\
+      0 &  0 &  0 &  0 &  0 &  0 &  0 &  0 &  0 & \cdots  4
+  \end{bmatrix}
+  \label{eq:diffmat}
+\end{equation}
+Merk at dette er beregnet med funksjonen \texttt{numpy.kron(A,B)}.
+
+For å kunne anvende matrisen i ligning \eqref{eq:diffmat} på vårt problem må vi gjøre noen tilpasninger for å ta høyde for randverdiene våre.
+
+Matrisen inneholder i utgangspunktet én linje pr. punkt i rutenettet vårt. Ettersom verdiene er kjent langs randen vil ikke lignene vi får ut av matrisen holde i disse punktene. For linjer som svarer til punkter med kjente verdier (randverdier) setter jeg derfor alle elementer unntatt diagonalelementet til 0, og diagonalelementet til 1. Setter i tillegg elementet i $b$ (vektoren på høyre side) lik den kjente verdien i punktet. I koden gjøres dette i følgende løkke:
+\begin{lstlisting}
+for i in range(n):
+    for j in range(n):
+        if i == 0 or j == 0 or i == (n-1) or j == (n-1):
+            b[i*n+j] = boundaries[i][j]
+            T[i*n+j] = np.zeros(n*n)
+            T[i*n+j][i*n+j] = 1
+\end{lstlisting}
+
+Vi kan nå sette opp systemet $Tu=b$, som enkelt løses med \texttt{numpy.linalg.solve(T,b)}. Etter dette gjør jeg den resulterende $u$-vektoren om til en 2D matrise og plotter den vha. \texttt{contourf}. Resultatet av dette er vist i Figur~\ref{fig:temps}. Den fullstendige koden er vist i Listing~\ref{lst:program} sist i dokumentet.
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{../code/temps.pdf}
+  \caption{caption}
+  \label{fig:temps}
+\end{figure}
+
+
+\begin{thebibliography}{1}
+  \bibitem{strang}
+    Gilbert Strang,
+    \emph{Linear Algebra and Its Applications}.
+    Cengage Learning,
+    4th Edition,
+    2005.
+
+\end{thebibliography}
+
+
+\clearpage
+\lstinputlisting[%
+  caption={tensorlaplace.py},
+  label={lst:program},
+  language={Python}]
+  {../code/tensorlaplace.py}
+
+
+\end{document}

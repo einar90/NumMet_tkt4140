@@ -1,0 +1,46 @@
+\input{../../../common/preamble.tex}
+\input{../../../common/preamble-addon-listings.tex}
+\input{../../../common/preamble-addon-figures.tex}
+
+
+\author{Einar Baumann}
+\title{
+    \vspace{-1in}
+    \usefont{OT1}{bch}{b}{n}
+    \vspace{0.1in}
+    \rule{\textwidth}{0.5pt} \\[0.5cm]
+    \normalfont \normalsize \textsc{TKT4140 Numeriske beregninger med datalab} \\ [20pt]
+    {\textsc{ \huge Øving 8 }} \\ [0.5cm]
+    {\textsc {\Large Ikke-stasjonær varmetransport i konisk kjøleribbe} } \\
+    \vspace{0.1in}
+    \rule{\textwidth}{2pt} \\[0.7cm]
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+
+\noindent Ikke-stasjonær endimensjonal varmeledning på to fosjellige former:
+\begin{equation}
+    \frac{\partial}{\partial x} \left( x^2 \frac{\partial \theta}{\partial x} \right)
+  - x \beta^2 \theta = x^2 \frac{\partial \theta}{\partial t}, \;\; 0< x < 1
+\end{equation}
+\begin{equation}
+    x \frac{\partial^2 \theta}{\partial x^2}
+  + 2 \frac{\partial \theta}{\partial x}
+  - \beta^2 \theta
+  = x \frac{\partial \theta}{\partial t}, \;\; 0<x<1
+\end{equation}
+der $\theta = \theta(x,t)$. Følgende størrelse er brukt:
+\begin{subequations}
+\begin{align}
+  \text{Dimensjonsløs koordinat: }\;  & x = \frac{X}{L} \\
+  \text{Dimensjonsløs temperatur: }\; & \theta = \frac{T-T_\infty}{T_L - T_\infty} \\
+  \text{Dimensjonsløs tid: }\;        & t = \frac{\tau \cdot \alpha}{L^2} \\
+  \text{Biot-tallet: }\;              & \beta^2 = \frac{2\bar h \cdot L^2}{k \cdot R}
+\end{align}
+\end{subequations}
+
+
+\end{document}

@@ -1,0 +1,13 @@
+% -*- root: ../pex3.tex -*-
+
+\begin{tikzpicture}
+  \node[draw, circle, minimum size=0.8cm] (d) at (0,-1.5) {-1};
+  \node[draw, circle, minimum size=0.8cm] (u) at (0,1.5) {-1};
+  \node[draw, circle, minimum size=0.8cm] (l) at (-1.5,0) {-1};
+  \node[draw, circle, minimum size=0.8cm] (r) at (1.5,0) {-1};
+  \node[draw, circle, minimum size=0.8cm] (m) at (0,0) {+4};
+  \draw [] (m.east) -- (r.west) {};
+  \draw [] (m.west) -- (l.east) {};
+  \draw [] (m.north) -- (u.south) {};
+  \draw [] (m.south) -- (d.north) {};
+\end{tikzpicture}
